@@ -12,6 +12,7 @@ assignees: ''
 **Steps to Reproduce**
 
  - OS/Browser:
+ - React-Native Version: 
  - SDK Version [e.g. 22]:
  - How you initialized the SDK:
 
