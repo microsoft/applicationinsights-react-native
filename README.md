@@ -44,6 +44,28 @@ By default, this plugin automatically collects
  - **Device Model Name** (iPhone XS, etc.)
  - **Device Type** (Handset, Tablet, etc.)
 
+## Compatibility Maxtrix
+
+| Version |  Application Insights | React Native         | Branch
+|---------|-----------------------|----------------------|-----------
+| 2.5.5   | 2.8.5                 | *<br/>dev:^0.68.0    | [main](https://github.com/microsoft/applicationinsights-react-native) and [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.5.4   | 2.8.4                 | *<br/>dev:^0.68.0    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.5.3   | 2.8.3                 | *<br/>dev:^0.68.0    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.5.2   | 2.8.2                 | *<br/>dev:^0.68.0    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.5.1   | 2.8.1                 | *<br/>dev:^0.68.0    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.5.0   | 2.8.0                 | *<br/>dev:^0.68.0    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.4.4   | 2.7.4                 | *<br/>dev:^0.64.2    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.4.3   | 2.7.3                 | *<br/>dev:^0.64.2    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.4.2   | 2.7.2                 | *<br/>dev:^0.64.2    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.4.1   | 2.7.1                 | *<br/>dev:^0.64.2    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.4.0   | 2.7.0                 | *<br/>dev:^0.64.2    | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.3.5   | ^2.6.5                | *<br/>dev:0.64.2     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.3.4   | ^2.6.4                | *<br/>dev:0.64.2     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.3.3   | ^2.6.3                | *<br/>dev:0.64.2     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.3.2   | ^2.6.2                | *<br/>dev:0.63.2     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.3.1   | ^2.6.2                | *<br/>dev:0.59.8     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+| 2.3.0   | ^2.6.0                | *<br/>dev:0.59.8     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
