@@ -102,11 +102,6 @@ module.exports = function (grunt) {
         }
     }
 
-    // const perfTestVersions = ["2.0.0","2.0.1","2.1.0","2.2.0","2.2.1","2.2.2","2.3.0","2.3.1",
-    // "2.4.1","2.4.3","2.4.4","2.5.2","2.5.3","2.5.4","2.5.5","2.5.6","2.5.7","2.5.8","2.5.9","2.5.10","2.5.11",
-    // "2.6.0","2.6.1","2.6.2","2.6.3","2.6.4","2.6.5","2.7.0"];
-    const perfTestVersions=["2.8.1"];
-
     function buildConfig(modules) {
         var buildCmds = {
             ts: {
@@ -280,11 +275,6 @@ module.exports = function (grunt) {
 
                 if (addQunit) {
                     var testUrls = [ testUrl ];
-                    if (key === "aisku") {
-                        testUrls = perfTestVersions.map((version) => {
-                            return testUrl + `?version=${version}`;
-                        });
-                    }
 
                     buildCmds.qunit[key + "-perf"] = {
                         options: {
@@ -476,22 +466,6 @@ module.exports = function (grunt) {
         grunt.initConfig(deepMerge(
             theBuildConfig, {
             uglify: {
-                snippetvNext: {
-                    files: {
-                        'AISKU/snippet/snippet.min.js': ['AISKU/snippet/snippet.js']
-                    },
-                    options: {
-                        sourceMap: false,
-                        ie8: true,
-                        compress: {
-                          passes:3,
-                          unsafe: true,
-                        },
-                        output: {
-                          webkit:true
-                        }
-                    }
-                }
             },
             'string-replace': {
             }
