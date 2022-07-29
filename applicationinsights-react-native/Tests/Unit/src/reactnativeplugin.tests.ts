@@ -2,18 +2,24 @@
 import { AppInsightsCore, DiagnosticLogger, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
 import { ReactNativePlugin, INativeDevice, IReactNativePluginConfig } from '../../../src/index';
 import dynamicProto from '@microsoft/dynamicproto-js';
+import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
+import { DeviceModule, DEVICE_MODEL, DEVICE_TYPE, UNIQUE_ID } from "../../../src/DeviceInfo/DeviceModule";
+import { ITestContext } from "@microsoft/ai-test-framework/dist-esm/src/TestCase";
 
 export class ReactNativePluginTests extends AITestClass {
     private plugin: ReactNativePlugin;
     private core: AppInsightsCore;
     private config: IReactNativePluginConfig;
     private item: ITelemetryItem;
+    private deviceModule: DeviceModule;
 
     public testInitialize() {
         this._disableDynProtoBaseFuncs();
         this.core = new AppInsightsCore();
         this.core.logger = new DiagnosticLogger();
         this.plugin = new ReactNativePlugin();
+        this.deviceModule = new DeviceModule();
+        this.plugin.setDeviceInfoModule(this.deviceModule)
         this.config = {};
     }
 
@@ -46,7 +52,9 @@ export class ReactNativePluginTests extends AITestClass {
                 const actual: ITelemetryItem = {
                     name: 'a name'
                 };
-                this.plugin['_initialized'] = true;
+                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                Assert.equal(true, this.plugin.isInitialized());
+
                 objForEachKey({
                     id: 'some id',
                     model: 'some model',
@@ -58,6 +66,87 @@ export class ReactNativePluginTests extends AITestClass {
                 this.plugin.processTelemetry(actual);
                 Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
             }
+        });
+
+        this.testCase({
+            name: 'processTelemetry appends device fields from collecting device info synchronously',
+            test: () => {
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'theDeviceId',
+                            model: 'theModel',
+                            deviceClass: 'theClass'
+                        }
+                    }
+                };
+                const actual: ITelemetryItem = {
+                    name: 'a name'
+                };
+                this.deviceModule[DEVICE_TYPE] = "theClass";
+                this.deviceModule[DEVICE_MODEL] = "theModel";
+                this.deviceModule[UNIQUE_ID] = "theDeviceId";
+
+                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                Assert.equal(true, this.plugin.isInitialized());
+
+                Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
+                this.plugin.processTelemetry(actual);
+                Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
+            }
+        });
+
+        this.testCaseAsync({
+            name: 'processTelemetry appends device fields from collecting device info asynchronously',
+            useFakeTimers: true,
+            stepDelay: 100,
+            steps: [(testContext) => {
+                let actual: ITelemetryItem = {
+                    name: 'a name'
+                };
+                
+                let ctx = testContext!.context;
+                ctx.actual = actual;
+                let promise = new Promise((resolve, reject) => {
+                    ctx.resolve = resolve;
+                    ctx.reject = reject;
+                });
+                this.deviceModule[DEVICE_TYPE] = "theClass";
+                this.deviceModule[DEVICE_MODEL] = "theModel";
+                this.deviceModule[UNIQUE_ID] = promise;
+
+                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                Assert.equal(true, this.plugin.isInitialized());
+
+                Assert.equal(undefined, (actual.ext || {}).device, "Device should not be populated yet.");
+                this.plugin.processTelemetry(actual);
+                Assert.equal(undefined, (actual.ext || {}).device, "Device should still not be populated yet.");
+            },
+            (testContext) => {
+                let ctx = testContext!.context;
+
+                // The event should still not have been processed
+                Assert.equal(undefined, (ctx.actual.ext || {}).device, "Device should still not be populated yet.");
+                // Cause the device id to be resolved
+                ctx.resolve("theDeviceId");
+            },
+            (testContext) => {
+                let ctx = testContext!.context;
+
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'theDeviceId',
+                            model: 'theModel',
+                            deviceClass: 'theClass'
+                        }
+                    }
+                };
+
+                Assert.deepEqual(expectation, ctx.actual, 'Telemetry items are equal');
+            }]
         });
     }
 
@@ -172,6 +261,10 @@ export class ReactNativePluginTests extends AITestClass {
 
     private _getDevice(plugin: any): any {
         return plugin._getDbgPlgTargets()[0];
+    }
+
+    private _getDeviceInfoModule(plugin: any): any {
+        return plugin._getDbgPlgTargets()[1];
     }
 }
 

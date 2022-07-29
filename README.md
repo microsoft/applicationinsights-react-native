@@ -11,7 +11,10 @@ React Native Plugin for the Application Insights Javascript SDK
     ms.date="08/24/2015"/>
 
 ## Getting Started
->**This plugin relies on [`react-native-device-info`](https://github.com/rebeccahughes/react-native-device-info). You must install and link this package. Keep `react-native-device-info` up-to-date to collect the latest device names using your app.**
+
+> By Default: **This plugin relies on [`react-native-device-info`](https://github.com/rebeccahughes/react-native-device-info). You must install and link this package. Keep `react-native-device-info` up-to-date to collect the latest device names using your app.**
+>
+> Since v3, support for accessing the DeviceInfo has been abstracted into an interface ```IDeviceInfoModule``` to enable you to use / set your own device info module. This interface uses the same function names and result `react-native-device-info`.
 
 ```zsh
 npm install --save @microsoft/applicationinsights-react-native @microsoft/applicationinsights-web
@@ -20,7 +23,9 @@ react-native link react-native-device-info
 ```
 
 ## Initializing the Plugin
+
 To use this plugin, you only need to construct the plugin and add it as an `extension` to your existing Application Insights instance.
+
 ```ts
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { ReactNativePlugin } from '@microsoft/applicationinsights-react-native';
@@ -35,16 +40,95 @@ var appInsights = new ApplicationInsights({
 appInsights.loadAppInsights();
 ```
 
+### Disabling automatic device info collection
+
+```ts
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+
+var RNPlugin = new ReactNativePlugin();
+var appInsights = new ApplicationInsights({
+    config: {
+        instrumentationKey: 'YOUR_INSTRUMENTATION_KEY_GOES_HERE',
+        disableDeviceCollection: true,
+        extensions: [RNPlugin]
+    }
+});
+appInsights.loadAppInsights();
+```
+
+### Using your own device info collection class
+
+```ts
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+
+// Simple inline constant implementation
+const myDeviceInfoModule = {
+    getModel: () => "deviceModel";
+    getDeviceType: () => "deviceType";
+    // v5 returns a string while latest returns a promise
+    getUniqueId: () => "deviceId";         // This "may" also return a Promise<string>
+};
+
+var RNPlugin = new ReactNativePlugin();
+RNPlugin.setDeviceInfoModule(myDeviceInfoModule);
+
+var appInsights = new ApplicationInsights({
+    config: {
+        instrumentationKey: 'YOUR_INSTRUMENTATION_KEY_GOES_HERE',
+        extensions: [RNPlugin]
+    }
+});
+
+appInsights.loadAppInsights();
+```
 ## Requirements
 You must be using a version `>=2.0.0` of `@microsoft/applicationinsights-web`. This plugin will only work in react-native apps, e.g. it will not work with `expo`.
 
 ## Device Information Collected
+
 By default, this plugin automatically collects
  - **Unique Device ID** (also known as Installation ID)
  - **Device Model Name** (iPhone XS, etc.)
  - **Device Type** (Handset, Tablet, etc.)
 
-## Compatibility Maxtrix
+## IDeviceInfoModule
+
+```typescript
+/**
+ * Interface to abstract how the plugin can access the Device Info, this is a stripped
+ * down version of the "react-native-device-info" interface and is mostly supplied for
+ * testing.
+ */
+export interface IDeviceInfoModule {
+    /**
+     * Returns the Device Model
+     */
+    getModel: () => string;
+
+    /**
+     * Returns the device type
+     */
+    getDeviceType: () => string;
+
+    /**
+     * Returns the unique Id for the device, to support both the current version and previous
+     * versions react-native-device-info, this may return either a `string` or `Promise<string>`,
+     * when a promise is returned the plugin will "wait" for the promise to `resolve` or `reject`
+     * before processing any events. This WILL cause telemetry to be BLOCKED until either of these
+     * states, so when returning a Promise it MUST `resolve` or `reject` it can't just never resolve.
+     * There is a default timeout configured via `uniqueIdPromiseTimeout` to automatically unblock
+     * event processing when this issue occurs.
+     */
+    getUniqueId: () => Promise<string> | string;
+}
+```
+
+If events are getting "blocked" because the `Promise` returned via `getUniqueId` is never resolved / rejected
+you can call `setDeviceId()` on the plugin to "unblock" this waiting state. There is also an automatic timeout
+configured via `uniqueIdPromiseTimeout` (defaults to 5 seconds), which will internally call `setDeviceId()` with
+any previously configured value.
+
+## Compatibility Matrix
 
 | Version |  Application Insights | React Native         | Branch
 |---------|-----------------------|----------------------|-----------

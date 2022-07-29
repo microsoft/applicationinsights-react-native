@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 export interface INativeDevice {
     /**
      * Device type, e.g. Handset, Tablet, Tv

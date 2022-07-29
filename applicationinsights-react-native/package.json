@@ -53,9 +53,9 @@
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^5.1.0",
         "qunit": "^2.11.2",
-        "react": "^17.0.2",
-        "react-native": "^0.68.0",
-        "react-native-device-info": "^5.6.5",
+        "react": "^18.0.0",
+        "react-native": "^0.69.3",
+        "react-native-device-info": "^10.0.2",
         "globby": "^11.0.0",
         "magic-string": "^0.25.7",
         "@rollup/plugin-commonjs": "^18.0.0",
@@ -63,7 +63,7 @@
         "@rollup/plugin-replace": "^2.3.3",
         "rollup-plugin-cleanup": "^3.2.1",
         "rollup-plugin-peer-deps-external": "^2.2.4",
-        "rollup": "^2.32.0",
+        "rollup": "^2.77.2",
         "typescript": "^4.3.4",
         "tslib": "^2.0.0",
         "uglify-js": "3.16.0"
@@ -72,11 +72,12 @@
         "@microsoft/applicationinsights-common": "^2.8.5",
         "@microsoft/applicationinsights-core-js": "^2.8.5",
         "@microsoft/applicationinsights-shims": "^2.0.1",
-        "@microsoft/dynamicproto-js": "^1.1.6"
+        "@microsoft/dynamicproto-js": "^1.1.6",
+        "@nevware21/ts-utils": "^0.3.1"
     },
     "peerDependencies": {
         "tslib": "*",
         "react-native": "*",
-        "react-native-device-info": "^5.2.1"
+        "react-native-device-info": ">=5.2.1"
     }
 }
