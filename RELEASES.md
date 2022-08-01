@@ -2,6 +2,8 @@
 
 ## 2.5.6 (July 27th, 2022)
 
+### Changelog
+
 - First release from [new repo](https://github.com/microsoft/applicationinsights-react-native)
 - Updates React Plugin to v2.5.6 (with UNPINNED ApplicationInsights ^2.8.5 as dependency)
 
