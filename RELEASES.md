@@ -1,5 +1,11 @@
 # Releases
 
+## 3.0.0 (Aug 2nd, 2022)
+
+### Changelog
+
+- #4 Update to React-Native 0.69.x #4
+
 ## 2.5.6 (July 27th, 2022)
 
 ### Changelog
