@@ -77,8 +77,13 @@ any previously configured value.
 
 ## Compatibility Matrix
 
-The [Compatibility Matrix](https://github.com/microsoft/applicationinsights-react-native#compatibility-maxtrix)
+The [Compatibility Matrix](https://github.com/microsoft/applicationinsights-react-native#compatibility-matrix)
 is tracked and updated on the main project README.md page.
+
+## Nightly Builds
+
+See the [Main Readme](https://github.com/microsoft/applicationinsights-react-native#nightly-builds)
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to

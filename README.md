@@ -152,6 +152,24 @@ any previously configured value.
 | 2.3.1   | ^2.6.2                | *<br/>dev:0.59.8     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
 | 2.3.0   | ^2.6.0                | *<br/>dev:0.59.8     | [AI master](https://github.com/microsoft/ApplicationInsights-JS/tree/master/extensions/
 
+## Nightly Builds
+
+To aid with testing and validation we also produce and publish nightly builds whenever there is a change from the previous build. These builds are published to the [NpmJs registry](https://www.npmjs.com/package/@microsoft/applicationinsights-react-native) on a successful build / test pass.
+
+This process also [tags the source code](https://github.com/microsoft/applicationInsights-react-native/tags) so that we can track the specific changes included using a nightly build specific version number which is the format "nightly-yymm-##" eg. ```nightly-2208-02```
+
+These nightly builds will not be retained indefinitely and should only be used for __pre-production__ testing and/or validation of any changes that have not yet been released.
+
+### NPM
+
+The NPM builds are tagged as "nightly" and can by downloaded using this as the version number ```npm install @microsoft/applicationinsights-react-native@nightly``` or using the nightly specific version number which is "nightly.yyyymm-###" (```npm install @microsoft/applicationinsights-react-native@2.7.3-nightly.2112-08```) where ## is the specific build number for the month (Note, slightly different version from the source code tag due to compatibility issues between the different systems).
+
+### Deployment process
+
+When a new release is deployed the following occurs as part of the release
+
+- NPM packages are created and published to [NpmJs](https://www.npmjs.com/package/@microsoft/applicationinsights-react-native)
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to
