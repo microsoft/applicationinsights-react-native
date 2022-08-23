@@ -63,10 +63,10 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
 // Simple inline constant implementation
 const myDeviceInfoModule = {
-    getModel: () => "deviceModel";
-    getDeviceType: () => "deviceType";
+    getModel: () => "deviceModel",
+    getDeviceType: () => "deviceType",
     // v5 returns a string while latest returns a promise
-    getUniqueId: () => "deviceId";         // This "may" also return a Promise<string>
+    getUniqueId: () => "deviceId",         // This "may" also return a Promise<string>
 };
 
 var RNPlugin = new ReactNativePlugin();
