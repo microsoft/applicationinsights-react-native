@@ -16,6 +16,7 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "build": "tsc",
+    "rebuild": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
