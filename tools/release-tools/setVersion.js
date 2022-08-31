@@ -349,6 +349,10 @@ function shouldProcess(name) {
         return updateAll || isReactNative;
     }
 
+    if (name.indexOf("reactnativesample") !== -1) {
+        return updateAll || isReactNative;
+    }
+
     if (name.indexOf("-angularplugin") !== -1) {
         return false;
     }

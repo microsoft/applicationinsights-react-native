@@ -19,6 +19,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
+  "include": [
+    "src",
+    "App.tsx"
+  ],
   "exclude": [
     "node_modules",
     "babel.config.js",
