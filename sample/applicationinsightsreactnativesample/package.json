@@ -1,18 +1,29 @@
 {
   "name": "applicationinsightsreactnativesample",
-  "version": "0.0.1",
-  "private": true,
+  "version": "3.0.0",
+    "description": "Microsoft Application Insights React Native Plugin Sample",
+    "author": "Microsoft Application Insights Team",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microsoft/applicationinsights-react-native"
+    },
+    "bugs": {
+        "url": "https://github.com/microsoft/applicationinsights-react-native/issues"
+    },
+    "homepage": "https://github.com/microsoft/applicationinsights-react-native#readme",
   "scripts": {
     "android": "react-native run-android",
     "start": "react-native start",
+    "build": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@microsoft/applicationinsights-react-native": "^3.0.0",
     "@microsoft/applicationinsights-web": "^2.8.6",
-    "react": "18.0.0",
-    "react-native": "0.69.5",
+    "react": "^18.0.0",
+    "react-native": "^0.69.3",
     "react-router-native": "^6.3.0"
   },
   "devDependencies": {
@@ -23,14 +34,14 @@
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.69.5",
     "@types/react-test-renderer": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.32.0",
+    "eslint": "^7.29.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.70.3",
     "react-test-renderer": "18.0.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.3.4"
   },
   "jest": {
     "preset": "react-native",
