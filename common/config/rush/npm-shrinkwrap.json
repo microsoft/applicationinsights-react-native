@@ -41,7 +41,7 @@
         "magic-string": "^0.25.7",
         "qunit": "^2.11.2",
         "react": "^18.0.0",
-        "react-native": "^0.69.3",
+        "react-native": "^0.69.8",
         "react-native-device-info": "^10.0.2",
         "rollup": "^2.77.2",
         "rollup-plugin-cleanup": "^3.2.1",
@@ -2724,7 +2724,7 @@
     "node_modules/@rush-temp/applicationinsights-react-native": {
       "version": "0.0.0",
       "resolved": "file:projects/applicationinsights-react-native.tgz",
-      "integrity": "sha512-CG/R/C01lHWtNp2fjIM4u5AYPHzMsvCq8XpEx66PhhiTKV8fgG+WPWYFve7MpuPGvKslUUFRZ9JhQYkCEHW1KQ==",
+      "integrity": "sha512-AM+YJW4cdzpgxhbQRv0Fhs12ewahOHGPLNxmzACw5S4y55UtlnYrXzhatVKxmbEJ20nr4fwWsET4OclmNIZ/rQ==",
       "dependencies": {
         "@microsoft/api-extractor": "^7.18.1",
         "@microsoft/applicationinsights-common": "^2.8.10",
@@ -2753,7 +2753,7 @@
         "magic-string": "^0.25.7",
         "qunit": "^2.11.2",
         "react": "^18.0.0",
-        "react-native": "^0.69.3",
+        "react-native": "^0.69.8",
         "react-native-device-info": "^10.0.2",
         "rollup": "^2.77.2",
         "rollup-plugin-cleanup": "^3.2.1",
@@ -13235,7 +13235,7 @@
     },
     "@rush-temp/applicationinsights-react-native": {
       "version": "file:projects\\applicationinsights-react-native.tgz",
-      "integrity": "sha512-CG/R/C01lHWtNp2fjIM4u5AYPHzMsvCq8XpEx66PhhiTKV8fgG+WPWYFve7MpuPGvKslUUFRZ9JhQYkCEHW1KQ==",
+      "integrity": "sha512-AM+YJW4cdzpgxhbQRv0Fhs12ewahOHGPLNxmzACw5S4y55UtlnYrXzhatVKxmbEJ20nr4fwWsET4OclmNIZ/rQ==",
       "requires": {
         "@microsoft/api-extractor": "^7.18.1",
         "@microsoft/applicationinsights-common": "^2.8.10",
@@ -13264,7 +13264,7 @@
         "magic-string": "^0.25.7",
         "qunit": "^2.11.2",
         "react": "^18.0.0",
-        "react-native": "^0.69.3",
+        "react-native": "^0.69.8",
         "react-native-device-info": "^10.0.2",
         "rollup": "^2.77.2",
         "rollup-plugin-cleanup": "^3.2.1",

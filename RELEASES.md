@@ -1,5 +1,15 @@
 # Releases
 
+## 3.0.1 (Feb 7th, 2023)
+
+### Changelog
+
+- #16 Update to ApplicationInsights v2.8.10
+- #15 Add --no-sandbox to test runs
+- #14 Fix mojibake in Readme.md file
+- #12 README Example myDeviceInfoModule syntax error fixes
+- #11 [Task] Add nightly build documentation
+
 ## 3.0.0 (Aug 2nd, 2022)
 
 ### Changelog
