@@ -123,6 +123,8 @@ module.exports = function (grunt) {
             "qunit" : {
                 all: {
                     options: {
+                        console: true,
+                        httpBase: "."
                     }
                 }
             },
@@ -130,7 +132,8 @@ module.exports = function (grunt) {
                 server: {
                     options: {
                         port: 9001,
-                        base: '.'
+                        base: '.',
+                        debug: true
                     }
                 }        
             },
@@ -238,13 +241,26 @@ module.exports = function (grunt) {
                 }
 
                 if (addQunit) {
+                     // Remove any "/./" values from the path
+                    testUrl = testUrl.replace(/\/\.\//g, "/");
+
                     buildCmds.qunit[key] = {
                         options: {
                             urls: [ testUrl ],
                             timeout: 300 * 1000, // 5 min
                             console: true,
                             summaryOnly: false,
-                            '--web-security': 'false' // we need this to allow CORS requests in PhantomJS
+                            httpBase: ".",
+                            puppeteer: { 
+                                headless: true, 
+                                timeout: 30000,
+                                ignoreHTTPErrors: true,
+                                args:[
+                                    "--enable-precise-memory-info",
+                                    "--expose-internals-for-testing",
+                                    "--no-sandbox"
+                                ]
+                            }
                         }
                     };
                 }
@@ -278,12 +294,21 @@ module.exports = function (grunt) {
 
                     buildCmds.qunit[key + "-perf"] = {
                         options: {
-                            urls: testUrls,
+                            urls: [ testUrl ],
                             timeout: 300 * 1000, // 5 min
                             console: true,
                             summaryOnly: false,
-                            puppeteer: { headless: true, args:['--enable-precise-memory-info','--expose-internals-for-testing'] },
-                            '--web-security': 'false' // we need this to allow CORS requests in PhantomJS
+                            httpBase: ".",
+                            puppeteer: { 
+                                headless: true, 
+                                timeout: 30000,
+                                ignoreHTTPErrors: true,
+                                args:[
+                                    "--enable-precise-memory-info",
+                                    "--expose-internals-for-testing",
+                                    "--no-sandbox"
+                                ]
+                            }
                         }
                     };
                 }

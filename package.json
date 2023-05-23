@@ -1,6 +1,6 @@
 {
     "name": "@microsoft/applicationinsights-react-native",
-    "version": "3.0.0",
+    "version": "3.0.2",
     "description": "Microsoft Application Insights React Native Plugin",
     "main": "dist-esm/index.js",
     "types": "types/index.d.ts",
@@ -41,7 +41,7 @@
         "ai-restore": "node common/scripts/install-run-rush.js ai-restore"
     },
     "devDependencies": {
-        "@microsoft/rush": "^5.75.0",
+        "@microsoft/rush": "^5.97.0",
         "@nevware21/grunt-eslint-ts": "^0.2.2",
         "@nevware21/grunt-ts-plugin": "^0.4.3",
         "@typescript-eslint/eslint-plugin": "^4.28.0",
@@ -67,15 +67,15 @@
         "whatwg-fetch": "^3.0.0"
     },
     "dependencies": {
-        "@microsoft/applicationinsights-common": "^2.8.5",
-        "@microsoft/applicationinsights-core-js": "^2.8.5",
-        "@microsoft/applicationinsights-shims": "^2.0.1",
-        "@microsoft/dynamicproto-js": "^1.1.6",
-        "@nevware21/ts-utils": "^0.4.0"
+        "@microsoft/applicationinsights-common": "^2.8.12",
+        "@microsoft/applicationinsights-core-js": "^2.8.12",
+        "@microsoft/applicationinsights-shims": "^2.0.2",
+        "@microsoft/dynamicproto-js": "^1.1.9",
+        "@nevware21/ts-utils": ">= 0.9.4 < 2.x"
     },
     "peerDependencies": {
-        "tslib": "*",
         "react-native": "*",
-        "react-native-device-info": ">=5.2.1"
+        "react-native-device-info": ">=5.2.1",
+        "tslib": "*"
     }
 }

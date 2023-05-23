@@ -12,7 +12,7 @@ import {
 } from "@microsoft/applicationinsights-core-js";
 import { getGlobal, strShimUndefined } from "@microsoft/applicationinsights-shims";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";
-import { isPromiseLike, isString } from "@nevware21/ts-utils";
+import { isPromiseLike, isString, ITimerHandler, scheduleTimeout } from "@nevware21/ts-utils";
 import { IDeviceInfoModule } from "./Interfaces/IDeviceInfoModule";
 import { getReactNativeDeviceInfo } from "./DeviceInfo/ReactNativeDeviceInfo";
 
@@ -36,7 +36,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
         let _analyticsPlugin: IAppInsights;
         let _defaultHandler;
         let _waitingForId: boolean;
-        let _waitingTimer: number;
+        let _waitingTimer: ITimerHandler;
         let _waitingItems: { item: ITelemetryItem, itemCtx?: IProcessTelemetryContext }[] = null;
         let _deviceInfoModule: IDeviceInfoModule;
     
@@ -118,12 +118,13 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                     if (isPromiseLike(uniqueId)) {
                         _waitingForId = true;
                         if (_waitingTimer) {
-                            clearTimeout(_waitingTimer);
+                            _waitingTimer.cancel();
                         }
-                        _waitingTimer = setTimeout(() => {
+                        _waitingTimer = scheduleTimeout(() => {
                             _waitingTimer = null;
                             _setDeviceId(_device.id);
-                        });
+                        }, 0);
+                        _waitingTimer.unref();
                         uniqueId.then((value) => {
                             _setDeviceId(value);
                         }, (reason) => {
@@ -157,7 +158,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 _device.id = newId;
                 _waitingForId = false;
                 if (_waitingTimer) {
-                    clearTimeout(_waitingTimer);
+                    _waitingTimer.cancel();
                 }
 
                 if (!_waitingForId && _waitingItems && _waitingItems.length > 0 && _self.isInitialized()) {
