@@ -1,5 +1,5 @@
 ﻿import { Assert, AITestClass } from "@microsoft/ai-test-framework";
-import { AppInsightsCore, DiagnosticLogger, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
+import { AppInsightsCore, DiagnosticLogger, IConfiguration, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
 import { ReactNativePlugin, INativeDevice, IReactNativePluginConfig } from '../../../src/index';
 import dynamicProto from '@microsoft/dynamicproto-js';
 import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
@@ -52,7 +52,16 @@ export class ReactNativePluginTests extends AITestClass {
                 const actual: ITelemetryItem = {
                     name: 'a name'
                 };
-                this.plugin.initialize(this.config, this.core, this.core._extensions);
+
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin ]);
+                //this.plugin.initialize(this.config, this.core, this.core._extensions);
                 Assert.equal(true, this.plugin.isInitialized());
 
                 objForEachKey({
@@ -88,7 +97,15 @@ export class ReactNativePluginTests extends AITestClass {
                 this.deviceModule[DEVICE_MODEL] = "theModel";
                 this.deviceModule[UNIQUE_ID] = "theDeviceId";
 
-                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin ]);
+                // this.plugin.initialize(this.config, this.core, this.core._extensions);
                 Assert.equal(true, this.plugin.isInitialized());
 
                 Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
@@ -116,7 +133,15 @@ export class ReactNativePluginTests extends AITestClass {
                 this.deviceModule[DEVICE_MODEL] = "theModel";
                 this.deviceModule[UNIQUE_ID] = promise;
 
-                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin ]);
+                // this.plugin.initialize(this.config, this.core, this.core._extensions);
                 Assert.equal(true, this.plugin.isInitialized());
 
                 Assert.equal(undefined, (actual.ext || {}).device, "Device should not be populated yet.");
