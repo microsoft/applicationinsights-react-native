@@ -1,5 +1,5 @@
 ﻿import { Assert, AITestClass } from "@microsoft/ai-test-framework";
-import { AppInsightsCore, DiagnosticLogger, IConfiguration, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
+import { AppInsightsCore, DiagnosticLogger, IAppInsightsCore, IConfiguration, IPlugin, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
 import { ReactNativePlugin, INativeDevice, IReactNativePluginConfig } from '../../../src/index';
 import dynamicProto from '@microsoft/dynamicproto-js';
 import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
@@ -12,6 +12,7 @@ export class ReactNativePluginTests extends AITestClass {
     private config: IReactNativePluginConfig;
     private item: ITelemetryItem;
     private deviceModule: DeviceModule;
+    private coreConfig: IConfiguration;
 
     public testInitialize() {
         this._disableDynProtoBaseFuncs();
@@ -19,8 +20,13 @@ export class ReactNativePluginTests extends AITestClass {
         this.core.logger = new DiagnosticLogger();
         this.plugin = new ReactNativePlugin();
         this.deviceModule = new DeviceModule();
-        this.plugin.setDeviceInfoModule(this.deviceModule)
+        this.plugin.setDeviceInfoModule(this.deviceModule);
         this.config = {};
+        this.coreConfig = {
+            instrumentationKey: 'testIkey',
+            endpointUrl: 'testEndpoint',
+            extensionConfig: {}
+        };
     }
 
     public testCleanup() {
@@ -36,143 +42,138 @@ export class ReactNativePluginTests extends AITestClass {
     }
 
     private addProcessTelemetryTests() {
-    //     this.testCase({
-    //         name: 'processTelemetry appends device fields',
-    //         test: () => {
-    //             const expectation: ITelemetryItem = {
-    //                 name: 'a name',
-    //                 ext: {
-    //                     device: {
-    //                         localId: 'some id',
-    //                         model: 'some model',
-    //                         deviceClass: 'some type'
-    //                     }
-    //                 }
-    //             };
-    //             const actual: ITelemetryItem = {
-    //                 name: 'a name'
-    //             };
+        this.testCase({
+            name: 'processTelemetry appends device fields',
+            test: () => {
 
-    //             let coreConfig:IConfiguration = {
-    //                 instrumentationKey: "test",
-    //                 extensionConfig: {
-    //                     [this.plugin.identifier]: this.config
-    //                 }
-    //             };
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'some id',
+                            model: 'some model',
+                            deviceClass: 'some type'
+                        }
+                    }
+                };
+                const actual: ITelemetryItem = {
+                    name: 'a name'
+                };
 
-    //             this.core.initialize(coreConfig, [ this.plugin ]);
-    //             //this.plugin.initialize(this.config, this.core, this.core._extensions);
-    //             Assert.equal(true, this.plugin.isInitialized());
+              
+                this.core.initialize(this.coreConfig, [this.plugin, new ChannelPlugin()]);
 
-    //             objForEachKey({
-    //                 id: 'some id',
-    //                 model: 'some model',
-    //                 deviceClass: 'some type'
-    //             }, (name, value) => {
-    //                 this._getDevice(this.plugin)[name] = value;
-    //             });
-    //             Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
-    //             this.plugin.processTelemetry(actual);
-    //             Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
-    //         }
-    //     });
+                Assert.equal(true, this.plugin.isInitialized());
+              
+                objForEachKey({
+                    id: 'some id',
+                    model: 'some model',
+                    deviceClass: 'some type'
+                }, (name, value) => {
+                    this._getDevice(this.plugin)[name] = value;
+                });
+                Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
+                this.plugin.processTelemetry(actual);
+                Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
+            }
+        });
 
-    //     this.testCase({
-    //         name: 'processTelemetry appends device fields from collecting device info synchronously',
-    //         test: () => {
-    //             const expectation: ITelemetryItem = {
-    //                 name: 'a name',
-    //                 ext: {
-    //                     device: {
-    //                         localId: 'theDeviceId',
-    //                         model: 'theModel',
-    //                         deviceClass: 'theClass'
-    //                     }
-    //                 }
-    //             };
-    //             const actual: ITelemetryItem = {
-    //                 name: 'a name'
-    //             };
-    //             this.deviceModule[DEVICE_TYPE] = "theClass";
-    //             this.deviceModule[DEVICE_MODEL] = "theModel";
-    //             this.deviceModule[UNIQUE_ID] = "theDeviceId";
+        this.testCase({
+            name: 'processTelemetry appends device fields from collecting device info synchronously',
+            test: () => {
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'theDeviceId',
+                            model: 'theModel',
+                            deviceClass: 'theClass'
+                        }
+                    }
+                };
+                const actual: ITelemetryItem = {
+                    name: 'a name'
+                };
+                this.deviceModule[DEVICE_TYPE] = "theClass";
+                this.deviceModule[DEVICE_MODEL] = "theModel";
+                this.deviceModule[UNIQUE_ID] = "theDeviceId";
 
-    //             let coreConfig:IConfiguration = {
-    //                 instrumentationKey: "test",
-    //                 extensionConfig: {
-    //                     [this.plugin.identifier]: this.config
-    //                 }
-    //             };
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
 
-    //             this.core.initialize(coreConfig, [ this.plugin ]);
-    //             // this.plugin.initialize(this.config, this.core, this.core._extensions);
-    //             Assert.equal(true, this.plugin.isInitialized());
+                this.core.initialize(coreConfig, [ this.plugin, new ChannelPlugin() ]);
+                // this.plugin.initialize(this.config, this.core, this.core._extensions);
+                Assert.equal(true, this.plugin.isInitialized());
 
-    //             Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
-    //             this.plugin.processTelemetry(actual);
-    //             Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
-    //         }
-    //     });
+                Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
+                this.plugin.processTelemetry(actual);
+                Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
+            }
+        });
 
-    //     this.testCaseAsync({
-    //         name: 'processTelemetry appends device fields from collecting device info asynchronously',
-    //         useFakeTimers: true,
-    //         stepDelay: 100,
-    //         steps: [(testContext) => {
-    //             let actual: ITelemetryItem = {
-    //                 name: 'a name'
-    //             };
+        this.testCaseAsync({
+            name: 'processTelemetry appends device fields from collecting device info asynchronously',
+            useFakeTimers: true,
+            stepDelay: 100,
+            steps: [(testContext) => {
+                let actual: ITelemetryItem = {
+                    name: 'a name'
+                };
                 
-    //             let ctx = testContext!.context;
-    //             ctx.actual = actual;
-    //             let promise = new Promise((resolve, reject) => {
-    //                 ctx.resolve = resolve;
-    //                 ctx.reject = reject;
-    //             });
-    //             this.deviceModule[DEVICE_TYPE] = "theClass";
-    //             this.deviceModule[DEVICE_MODEL] = "theModel";
-    //             this.deviceModule[UNIQUE_ID] = promise;
+                let ctx = testContext!.context;
+                ctx.actual = actual;
+                let promise = new Promise((resolve, reject) => {
+                    ctx.resolve = resolve;
+                    ctx.reject = reject;
+                });
+                this.deviceModule[DEVICE_TYPE] = "theClass";
+                this.deviceModule[DEVICE_MODEL] = "theModel";
+                this.deviceModule[UNIQUE_ID] = promise;
 
-    //             let coreConfig:IConfiguration = {
-    //                 instrumentationKey: "test",
-    //                 extensionConfig: {
-    //                     [this.plugin.identifier]: this.config
-    //                 }
-    //             };
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
 
-    //             this.core.initialize(coreConfig, [ this.plugin ]);
-    //             // this.plugin.initialize(this.config, this.core, this.core._extensions);
-    //             Assert.equal(true, this.plugin.isInitialized());
+                this.core.initialize(coreConfig, [ this.plugin, new ChannelPlugin() ]);
+                // this.plugin.initialize(this.config, this.core, this.core._extensions);
+                Assert.equal(true, this.plugin.isInitialized());
 
-    //             Assert.equal(undefined, (actual.ext || {}).device, "Device should not be populated yet.");
-    //             this.plugin.processTelemetry(actual);
-    //             Assert.equal(undefined, (actual.ext || {}).device, "Device should still not be populated yet.");
-    //         },
-    //         (testContext) => {
-    //             let ctx = testContext!.context;
+                Assert.equal(undefined, (actual.ext || {}).device, "Device should not be populated yet.");
+                this.plugin.processTelemetry(actual);
+                Assert.equal(undefined, (actual.ext || {}).device, "Device should still not be populated yet.");
+            },
+            (testContext) => {
+                let ctx = testContext!.context;
 
-    //             // The event should still not have been processed
-    //             Assert.equal(undefined, (ctx.actual.ext || {}).device, "Device should still not be populated yet.");
-    //             // Cause the device id to be resolved
-    //             ctx.resolve("theDeviceId");
-    //         },
-    //         (testContext) => {
-    //             let ctx = testContext!.context;
+                // The event should still not have been processed
+                Assert.equal(undefined, (ctx.actual.ext || {}).device, "Device should still not be populated yet.");
+                // Cause the device id to be resolved
+                ctx.resolve("theDeviceId");
+            },
+            (testContext) => {
+                let ctx = testContext!.context;
 
-    //             const expectation: ITelemetryItem = {
-    //                 name: 'a name',
-    //                 ext: {
-    //                     device: {
-    //                         localId: 'theDeviceId',
-    //                         model: 'theModel',
-    //                         deviceClass: 'theClass'
-    //                     }
-    //                 }
-    //             };
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'theDeviceId',
+                            model: 'theModel',
+                            deviceClass: 'theClass'
+                        }
+                    }
+                };
 
-    //             Assert.deepEqual(expectation, ctx.actual, 'Telemetry items are equal');
-    //         }]
-    //     });
+                Assert.deepEqual(expectation, ctx.actual, 'Telemetry items are equal');
+            }]
+        });
     }
 
     private addAPITests() {
@@ -295,4 +296,54 @@ export class ReactNativePluginTests extends AITestClass {
 
 export function runTests() {
     new ReactNativePluginTests().registerTests();
+}
+
+
+class ChannelPlugin implements IPlugin {
+    public isFlushInvoked = false;
+    public isTearDownInvoked = false;
+    public isResumeInvoked = false;
+    public isPauseInvoked = false;
+
+    public identifier = "Sender";
+
+    public priority: number = 1001;
+
+    constructor() {
+        this.processTelemetry = this._processTelemetry.bind(this);
+    }
+    public pause(): void {
+        this.isPauseInvoked = true;
+    }
+
+    public resume(): void {
+        this.isResumeInvoked = true;
+    }
+
+    public teardown(): void {
+        this.isTearDownInvoked = true;
+    }
+
+    public flush(async?: boolean, callBack?: () => void): void {
+        this.isFlushInvoked = true;
+        if (callBack) {
+            callBack();
+        }
+    }
+
+    public processTelemetry(env: ITelemetryItem) {
+        // Mocked - Do Nothing
+    }
+
+    public setNextPlugin(next: any) {
+        // no next setup
+    }
+
+    public initialize = (config: IConfiguration, core: IAppInsightsCore, plugin: IPlugin[]) => {
+        // Mocked - Do Nothing
+    }
+
+    private _processTelemetry(env: ITelemetryItem) {
+        // Mocked - Do Nothing
+    }
 }
