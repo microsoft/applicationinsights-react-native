@@ -6,17 +6,22 @@ import {
     AnalyticsPluginIdentifier, ConfigurationManager, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
 } from "@microsoft/applicationinsights-common";
 import {
-    BaseTelemetryPlugin, IAppInsightsCore, IPlugin, IProcessTelemetryContext, IProcessTelemetryUnloadContext, ITelemetryItem,
+    BaseTelemetryPlugin, IAppInsightsCore, IConfigDefaults, IPlugin, IProcessTelemetryContext, IProcessTelemetryUnloadContext, ITelemetryItem,
     ITelemetryPlugin, ITelemetryUnloadState, _eInternalMessageId, _throwInternal, _warnToConsole, arrForEach, dumpObj, eLoggingSeverity,
-    getExceptionName,  isUndefined, objForEachKey
+    getExceptionName,  isUndefined, objForEachKey, onConfigChange
 } from "@microsoft/applicationinsights-core-js";
 import { getGlobal, strShimUndefined } from "@microsoft/applicationinsights-shims";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";
-import { isPromiseLike, isString, ITimerHandler, scheduleTimeout } from "@nevware21/ts-utils";
+import { isPromiseLike, isString, isTypeof, ITimerHandler, objDeepFreeze, scheduleTimeout } from "@nevware21/ts-utils";
 import { IDeviceInfoModule } from "./Interfaces/IDeviceInfoModule";
 import { getReactNativeDeviceInfo } from "./DeviceInfo/ReactNativeDeviceInfo";
 
 declare var global: Window;
+const defaultReactNativePluginConfig: IConfigDefaults<IReactNativePluginConfig> = objDeepFreeze({
+    disableDeviceCollection: false,
+    disableExceptionCollection: false,
+    uniqueIdPromiseTimeout: 5000
+});
 
 export class ReactNativePlugin extends BaseTelemetryPlugin {
 
@@ -48,33 +53,32 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 core?: IAppInsightsCore,
                 extensions?: IPlugin[]
             ) => {
+                let identifier = this.identifier;
                 if (!_self.isInitialized()) {
                     _base.initialize(config, core, extensions);
 
-                    const inConfig = config || {};
-                    const defaultConfig = _getDefaultConfig();
-                    objForEachKey(defaultConfig, (option, value) => {
-                        _config[option] = ConfigurationManager.getConfig(
-                            inConfig as any,
-                            option,
-                            _self.identifier,
-                            !isUndefined(_config[option]) ? _config[option] : value
-                        );
-                    });
-        
-                    if (!_config.disableDeviceCollection) {
-                        _self._collectDeviceInfo();
-                    }
-        
-                    if (core && core.getPlugin) {
-                        _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
-                    }
-        
-                    if (!_config.disableExceptionCollection) {
-                        _self._setExceptionHandler();
-                    }
+                    _self._addHook(onConfigChange(config, (details) => {
+                        let ctx = _self._getTelCtx();
+                        _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
+            
+                        if (!_config.disableDeviceCollection) {
+                            _self._collectDeviceInfo();
+                        }
+            
+                        if (core && core.getPlugin) {
+                            _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
+                        }
+            
+                        if (!_config.disableExceptionCollection) {
+                            _self._setExceptionHandler();
+                        }
+                    }));
                 }
+                _self["_config"] = () => {
+                    return _config;
+                };   
             };
+
 
             _self.processTelemetry = (item: ITelemetryItem, itemCtx?: IProcessTelemetryContext) => {
                 if (!_waitingForId) {
@@ -147,7 +151,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
 
             function _initDefaults() {
                 _device = {};
-                _config = config || _getDefaultConfig();
+                _config = {};
                 _analyticsPlugin = null;
                 _defaultHandler = null;
                 _waitingForId = false;
