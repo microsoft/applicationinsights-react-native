@@ -78,7 +78,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 }
                 _self["_config"] = () => {
                     return _config;
-                };   
+                };
             };
 
 
