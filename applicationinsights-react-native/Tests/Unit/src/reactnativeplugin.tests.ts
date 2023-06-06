@@ -89,6 +89,44 @@ export class ReactNativePluginTests extends AITestClass {
                  
             }
         });
+        this.testCase({
+            name: 'Test Dynamic Config Device Enabling Change',
+            useFakeTimers: true,
+            test: () => {
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'theDeviceId',
+                            model: 'theModel',
+                            deviceClass: 'theClass'
+                        }
+                    }
+                };
+                const actual: ITelemetryItem = {
+                    name: 'a name'
+                };
+                this.deviceModule[DEVICE_TYPE] = "theClass";
+                this.deviceModule[DEVICE_MODEL] = "theModel";
+                this.deviceModule[UNIQUE_ID] = "theDeviceId";
+
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin, new ChannelPlugin() ]);
+
+                Assert.equal(true, this.plugin.isInitialized());
+
+                Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
+                this.plugin.processTelemetry(actual);
+                Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
+                 
+            }
+        });
     }
 
     private addProcessTelemetryTests() {
