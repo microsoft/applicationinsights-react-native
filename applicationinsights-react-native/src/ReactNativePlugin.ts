@@ -67,6 +67,8 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
             
                         if (core && core.getPlugin) {
                             _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
+                        } else {
+                            _analyticsPlugin = null;
                         }
             
                         if (!_config.disableExceptionCollection) {
