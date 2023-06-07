@@ -1,5 +1,13 @@
 # Releases
 
+## 3.0.3 (June 7th, 2023)
+
+### Changelog
+
+- Move release to [release3.x branch](https://github.com/microsoft/applicationinsights-react-native/tree/release3.x)
+  - Moving to release 3.x branch so that main can be updated to v3.x of Application Insights
+- Update to ApplicationInsights 2.8.14
+
 ## 3.0.2 (Apr 12th, 2023)
 
 ### Changelog
