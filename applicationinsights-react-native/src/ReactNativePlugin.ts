@@ -45,6 +45,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
         let _waitingItems: { item: ITelemetryItem, itemCtx?: IProcessTelemetryContext }[] = null;
         let _deviceInfoModule: IDeviceInfoModule;
         let notInit = true;
+        let isSet = false;
     
         dynamicProto(ReactNativePlugin, this, (_self, _base) => {
             _initDefaults();
@@ -78,7 +79,13 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         }
             
                         if (!_config.disableExceptionCollection) {
+                            if (isSet){
+                                _resetGlobalErrorHandler();
+                            }
                             _self._setExceptionHandler();
+                            isSet = true;
+                        } else {
+                            _resetGlobalErrorHandler();
                         }
                     }));
                 }
