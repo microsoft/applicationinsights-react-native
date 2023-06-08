@@ -60,7 +60,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                     _self._addHook(onConfigChange(config, (details) => {
                         let ctx = _self._getTelCtx();
                         _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
-            
+
                         if (!_config.disableDeviceCollection) {
                             _self._collectDeviceInfo();
                         }
@@ -76,9 +76,6 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         }
                     }));
                 }
-                _self["_config"] = () => {
-                    return _config;
-                };
             };
 
 
@@ -240,7 +237,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
             // Test Hooks
             (_self as any)._config = _config;
             (_self as any)._getDbgPlgTargets = () => {
-                return [_device, _deviceInfoModule];
+                return [_device, _deviceInfoModule, _config];
             }
         });
 

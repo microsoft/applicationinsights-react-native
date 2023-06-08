@@ -33,6 +33,9 @@ export class ReactNativePluginTests extends AITestClass {
         if (this.core && this.core.isInitialized()) {
             this.core.unload(false);
         }
+        this.core = null;
+        this.plugin = null;
+        this.config = null;
     }
 
     public registerTests() {
@@ -49,8 +52,8 @@ export class ReactNativePluginTests extends AITestClass {
             test: () => {
                 this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
                 Assert.equal(true, this.plugin.isInitialized());
-                Assert.equal(false, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
             }
         });
         this.testCase({
@@ -59,15 +62,15 @@ export class ReactNativePluginTests extends AITestClass {
             test: () => {
                 this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
                 Assert.equal(true, this.plugin.isInitialized());
-                Assert.equal(false, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 let id = this.plugin.identifier;
                  //change config
                 this.core.config.extensionConfig[id].disableDeviceCollection  = true;
                 this.core.config.extensionConfig[id].disableExceptionCollection  = true;
                 this.clock.tick(1);
-                Assert.equal(true, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is changed to true');
-                Assert.equal(true, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is changed to true');
+                Assert.equal(true, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is changed to true');
+                Assert.equal(true, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is changed to true');
                  
             }
         });
@@ -77,15 +80,15 @@ export class ReactNativePluginTests extends AITestClass {
             test: () => {
                 this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
                 Assert.equal(true, this.plugin.isInitialized());
-                Assert.equal(false, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 let id = this.plugin.identifier;
                  //change config
                 this.core.config.extensionConfig[id].disableDeviceCollection  = true;
                 this.core.config.extensionConfig[id].disableExceptionCollection  = true;
                 this.clock.tick(1);
-                Assert.equal(true, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is changed to true');
-                Assert.equal(true, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is changed to true');
+                Assert.equal(true, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is changed to true');
+                Assert.equal(true, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is changed to true');
                  
             }
         });
@@ -147,11 +150,10 @@ export class ReactNativePluginTests extends AITestClass {
                 const actual: ITelemetryItem = {
                     name: 'a name'
                 };
-
               
                 this.core.initialize(this.coreConfig, [this.plugin, new ChannelPlugin()]);
-
                 Assert.equal(true, this.plugin.isInitialized());
+
               
                 objForEachKey({
                     id: 'some id',
@@ -301,10 +303,10 @@ export class ReactNativePluginTests extends AITestClass {
             test: () => {
                 const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
-
-                this.plugin.initialize(this.config, this.core, []);
-                Assert.equal(false, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is false');
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
+    
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
                 Assert.ok(autoCollectExceptionStub.calledOnce);
             }
@@ -326,8 +328,8 @@ export class ReactNativePluginTests extends AITestClass {
                
                 this.core.initialize(config, [ this.plugin, new ChannelPlugin() ]);
                 
-                Assert.equal(true, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is true');
-                Assert.equal(true, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is true');
+                Assert.equal(true, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is true');
+                Assert.equal(true, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is true');
                 Assert.ok(autoCollectStub.notCalled);
                 Assert.ok(autoCollectExceptionStub.notCalled);
             }
@@ -341,8 +343,8 @@ export class ReactNativePluginTests extends AITestClass {
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
                 this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
 
-                Assert.equal(false, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
                 Assert.ok(autoCollectExceptionStub.calledOnce);
             }
@@ -356,8 +358,8 @@ export class ReactNativePluginTests extends AITestClass {
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
                 this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
 
-                Assert.deepEqual(false, this.plugin['_config']().disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.deepEqual(false, this.plugin['_config']().disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.deepEqual(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.deepEqual(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
                 Assert.ok(autoCollectExceptionStub.calledOnce);
             }
@@ -370,6 +372,10 @@ export class ReactNativePluginTests extends AITestClass {
 
     private _getDeviceInfoModule(plugin: any): any {
         return plugin._getDbgPlgTargets()[1];
+    }
+
+    private _getConfig(plugin: any): any {
+        return plugin._getDbgPlgTargets()[2];
     }
 }
 
