@@ -240,15 +240,6 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 return [_device, _deviceInfoModule, _config];
             }
         });
-
-        function _getDefaultConfig(): IReactNativePluginConfig {
-            return {
-                // enable auto collection by default
-                disableDeviceCollection: false,
-                disableExceptionCollection: false,
-                uniqueIdPromiseTimeout: 5000
-            };
-        }
     }
 
     public initialize(
