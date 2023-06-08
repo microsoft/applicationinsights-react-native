@@ -3,12 +3,12 @@
 
 import dynamicProto from "@microsoft/dynamicproto-js";
 import {
-    AnalyticsPluginIdentifier, ConfigurationManager, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
+    AnalyticsPluginIdentifier, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
 } from "@microsoft/applicationinsights-common";
 import {
     BaseTelemetryPlugin, IAppInsightsCore, IConfigDefaults, IPlugin, IProcessTelemetryContext, IProcessTelemetryUnloadContext, ITelemetryItem,
     ITelemetryPlugin, ITelemetryUnloadState, _eInternalMessageId, _throwInternal, _warnToConsole, arrForEach, dumpObj, eLoggingSeverity,
-    getExceptionName,  isUndefined, objForEachKey, onConfigChange
+    getExceptionName, onConfigChange
 } from "@microsoft/applicationinsights-core-js";
 import { getGlobal, strShimUndefined } from "@microsoft/applicationinsights-shims";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";
@@ -44,6 +44,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
         let _waitingTimer: ITimerHandler;
         let _waitingItems: { item: ITelemetryItem, itemCtx?: IProcessTelemetryContext }[] = null;
         let _deviceInfoModule: IDeviceInfoModule;
+        let notInit = true;
     
         dynamicProto(ReactNativePlugin, this, (_self, _base) => {
             _initDefaults();
@@ -62,7 +63,12 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
 
                         if (!_config.disableDeviceCollection) {
-                            _self._collectDeviceInfo();
+                            if (notInit){
+                                _self._collectDeviceInfo();
+                                notInit = false;
+                            }
+                        } else {
+                            _deviceInfoModule = null;
                         }
             
                         if (core && core.getPlugin) {
@@ -96,6 +102,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
             _self.setDeviceInfoModule = (deviceInfoModule: IDeviceInfoModule) => {
                 // Set the configured deviceInfoModule
                 _deviceInfoModule = deviceInfoModule;
+                _self._collectDeviceInfo();
             };
 
             _self.setDeviceId =_setDeviceId;
@@ -113,11 +120,11 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
              */
             _self._collectDeviceInfo = () => {
                 try {
-                    let deviceInfoModule = _deviceInfoModule || getReactNativeDeviceInfo();
+                    _deviceInfoModule = _deviceInfoModule || getReactNativeDeviceInfo();
 
-                    _device.deviceClass = deviceInfoModule.getDeviceType();
-                    _device.model = deviceInfoModule.getModel();
-                    let uniqueId = deviceInfoModule.getUniqueId(); // Installation ID support different versions which return a promise vs string
+                    _device.deviceClass = _deviceInfoModule.getDeviceType();
+                    _device.model = _deviceInfoModule.getModel();
+                    let uniqueId = _deviceInfoModule.getUniqueId(); // Installation ID support different versions which return a promise vs string
                     if (isPromiseLike(uniqueId)) {
                         _waitingForId = true;
                         if (_waitingTimer) {

@@ -304,7 +304,6 @@ export class ReactNativePluginTests extends AITestClass {
                 const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
                 this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
-    
                 Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
                 Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
