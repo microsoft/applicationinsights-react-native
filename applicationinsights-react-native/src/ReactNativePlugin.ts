@@ -44,8 +44,8 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
         let _waitingTimer: ITimerHandler;
         let _waitingItems: { item: ITelemetryItem, itemCtx?: IProcessTelemetryContext }[] = null;
         let _deviceInfoModule: IDeviceInfoModule;
-        let notInit = true;
-        let isSet = false;
+        let deviceInfoCollected:boolean;
+        let exceptionHandlerSet:boolean;
     
         dynamicProto(ReactNativePlugin, this, (_self, _base) => {
             _initDefaults();
@@ -64,9 +64,9 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
 
                         if (!_config.disableDeviceCollection) {
-                            if (notInit){
+                            if (!deviceInfoCollected){
                                 _self._collectDeviceInfo();
-                                notInit = false;
+                                deviceInfoCollected = true;
                             }
                         } else {
                             _deviceInfoModule = null;
@@ -77,15 +77,14 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         } else {
                             _analyticsPlugin = null;
                         }
+
+                        if (exceptionHandlerSet){
+                            _resetGlobalErrorHandler();
+                        }
             
                         if (!_config.disableExceptionCollection) {
-                            if (isSet){
-                                _resetGlobalErrorHandler();
-                            }
                             _self._setExceptionHandler();
-                            isSet = true;
-                        } else {
-                            _resetGlobalErrorHandler();
+                            exceptionHandlerSet = true;
                         }
                     }));
                 }
@@ -169,6 +168,8 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 _defaultHandler = null;
                 _waitingForId = false;
                 _deviceInfoModule = null;
+                deviceInfoCollected = false;
+                exceptionHandlerSet = false;
             }
 
             function _setDeviceId(newId: string) {
