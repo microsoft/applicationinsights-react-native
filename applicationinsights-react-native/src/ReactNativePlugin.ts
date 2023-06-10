@@ -12,7 +12,7 @@ import {
 } from "@microsoft/applicationinsights-core-js";
 import { getGlobal, strShimUndefined } from "@microsoft/applicationinsights-shims";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";
-import { isPromiseLike, isString, isTypeof, ITimerHandler, objDeepFreeze, scheduleTimeout } from "@nevware21/ts-utils";
+import { isPromiseLike, isString, ITimerHandler, objDeepFreeze, scheduleTimeout } from "@nevware21/ts-utils";
 import { IDeviceInfoModule } from "./Interfaces/IDeviceInfoModule";
 import { getReactNativeDeviceInfo } from "./DeviceInfo/ReactNativeDeviceInfo";
 
