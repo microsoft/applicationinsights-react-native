@@ -132,6 +132,8 @@ any previously configured value.
 
 | Version |  Application Insights | React Native         | Branch
 |---------|-----------------------|----------------------|-----------
+| TBD     | TBD (^3.x)            |                      | [main](https://github.com/microsoft/applicationinsights-react-native)
+| 3.0.3   | ^2.8.14               | *<br/>dev:^0.69.9    | [release3.x](https://github.com/microsoft/applicationinsights-react-native/tree/release3.x)
 | 3.0.2   | ^2.8.12               | *<br/>dev:^0.69.9    | [main](https://github.com/microsoft/applicationinsights-react-native)
 | 3.0.1   | ^2.8.10               | *<br/>dev:^0.69.8    | [main](https://github.com/microsoft/applicationinsights-react-native)
 | 3.0.0   | ^2.8.5                | *<br/>dev:^0.69.3    | [main](https://github.com/microsoft/applicationinsights-react-native)
