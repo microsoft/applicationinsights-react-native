@@ -44,7 +44,8 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
         let _waitingTimer: ITimerHandler;
         let _waitingItems: { item: ITelemetryItem, itemCtx?: IProcessTelemetryContext }[] = null;
         let _deviceInfoModule: IDeviceInfoModule;
-        let deviceInfoCollected:boolean;
+       
+        let _deviceInfoNeedsUpdate:boolean;
         let exceptionHandlerSet:boolean;
     
         dynamicProto(ReactNativePlugin, this, (_self, _base) => {
@@ -63,14 +64,10 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         let ctx = _self._getTelCtx();
                         _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
 
-                        if (!_config.disableDeviceCollection) {
-                            if (!deviceInfoCollected){
-                                _self._collectDeviceInfo();
-                                deviceInfoCollected = true;
-                            }
-                        } else {
-                            _deviceInfoModule = null;
-                        }
+                        if (!_config.disableDeviceCollection && _deviceInfoNeedsUpdate) {
+                            _self._collectDeviceInfo();
+                            _deviceInfoNeedsUpdate = false;
+                        } 
             
                         if (core && core.getPlugin) {
                             _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
@@ -108,7 +105,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
             _self.setDeviceInfoModule = (deviceInfoModule: IDeviceInfoModule) => {
                 // Set the configured deviceInfoModule
                 _deviceInfoModule = deviceInfoModule;
-                _self._collectDeviceInfo();
+                _deviceInfoNeedsUpdate = true;
             };
 
             _self.setDeviceId =_setDeviceId;
@@ -168,7 +165,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 _defaultHandler = null;
                 _waitingForId = false;
                 _deviceInfoModule = null;
-                deviceInfoCollected = false;
+                _deviceInfoNeedsUpdate = true;
                 exceptionHandlerSet = false;
             }
 
