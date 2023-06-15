@@ -67,7 +67,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                         if (!_config.disableDeviceCollection && _deviceInfoNeedsUpdate) {
                             _self._collectDeviceInfo();
                             _deviceInfoNeedsUpdate = false;
-                        } 
+                        }
             
                         if (core && core.getPlugin) {
                             _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
