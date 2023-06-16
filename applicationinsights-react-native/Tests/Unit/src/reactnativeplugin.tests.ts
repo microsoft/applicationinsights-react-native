@@ -1,5 +1,5 @@
 ﻿import { Assert, AITestClass } from "@microsoft/ai-test-framework";
-import { AppInsightsCore, DiagnosticLogger, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
+import { AppInsightsCore, DiagnosticLogger, IAppInsightsCore, IConfiguration, IPlugin, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
 import { ReactNativePlugin, INativeDevice, IReactNativePluginConfig } from '../../../src/index';
 import dynamicProto from '@microsoft/dynamicproto-js';
 import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
@@ -12,6 +12,7 @@ export class ReactNativePluginTests extends AITestClass {
     private config: IReactNativePluginConfig;
     private item: ITelemetryItem;
     private deviceModule: DeviceModule;
+    private coreConfig: IConfiguration;
 
     public testInitialize() {
         this._disableDynProtoBaseFuncs();
@@ -19,11 +20,19 @@ export class ReactNativePluginTests extends AITestClass {
         this.core.logger = new DiagnosticLogger();
         this.plugin = new ReactNativePlugin();
         this.deviceModule = new DeviceModule();
-        this.plugin.setDeviceInfoModule(this.deviceModule)
+        this.plugin.setDeviceInfoModule(this.deviceModule);
         this.config = {};
+        this.coreConfig = {
+            instrumentationKey: 'testIkey',
+            endpointUrl: 'testEndpoint',
+            extensionConfig: {}
+        };
     }
 
     public testCleanup() {
+        if (this.core && this.core.isInitialized()) {
+            this.core.unload(false);
+        }
         this.core = null;
         this.plugin = null;
         this.config = null;
@@ -33,12 +42,101 @@ export class ReactNativePluginTests extends AITestClass {
         this.addConfigTests()
         this.addAPITests();
         this.addProcessTelemetryTests();
+        this.addDynamicConfigTests();
+    }
+
+    private addDynamicConfigTests() {
+        this.testCase({
+            name: 'Test Dynamic Config Default Setting',
+            useFakeTimers: true,
+            test: () => {
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
+                Assert.equal(true, this.plugin.isInitialized());
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
+            }
+        });
+        this.testCase({
+            name: 'Test Dynamic Config Single Setting Change',
+            useFakeTimers: true,
+            test: () => {
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
+                Assert.equal(true, this.plugin.isInitialized());
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
+                let id = this.plugin.identifier;
+                 //change config
+                this.core.config.extensionConfig[id].disableDeviceCollection  = true;
+                this.core.config.extensionConfig[id].disableExceptionCollection  = true;
+                this.clock.tick(1);
+                Assert.equal(true, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is changed to true');
+                Assert.equal(true, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is changed to true');
+                 
+            }
+        });
+        this.testCase({
+            name: 'Test Dynamic Config Single Setting Change',
+            useFakeTimers: true,
+            test: () => {
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
+                Assert.equal(true, this.plugin.isInitialized());
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
+                let id = this.plugin.identifier;
+                 //change config
+                this.core.config.extensionConfig[id].disableDeviceCollection  = true;
+                this.core.config.extensionConfig[id].disableExceptionCollection  = true;
+                this.clock.tick(1);
+                Assert.equal(true, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is changed to true');
+                Assert.equal(true, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is changed to true');
+                 
+            }
+        });
+        this.testCase({
+            name: 'Test Dynamic Config Device Enabling Change',
+            useFakeTimers: true,
+            test: () => {
+                const expectation: ITelemetryItem = {
+                    name: 'a name',
+                    ext: {
+                        device: {
+                            localId: 'theDeviceId',
+                            model: 'theModel',
+                            deviceClass: 'theClass'
+                        }
+                    }
+                };
+                const actual: ITelemetryItem = {
+                    name: 'a name'
+                };
+                this.deviceModule[DEVICE_TYPE] = "theClass";
+                this.deviceModule[DEVICE_MODEL] = "theModel";
+                this.deviceModule[UNIQUE_ID] = "theDeviceId";
+
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin, new ChannelPlugin() ]);
+
+                Assert.equal(true, this.plugin.isInitialized());
+
+                Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
+                this.plugin.processTelemetry(actual);
+                Assert.deepEqual(expectation, actual, 'Telemetry items are equal');
+                 
+            }
+        });
     }
 
     private addProcessTelemetryTests() {
         this.testCase({
             name: 'processTelemetry appends device fields',
             test: () => {
+
                 const expectation: ITelemetryItem = {
                     name: 'a name',
                     ext: {
@@ -52,9 +150,11 @@ export class ReactNativePluginTests extends AITestClass {
                 const actual: ITelemetryItem = {
                     name: 'a name'
                 };
-                this.plugin.initialize(this.config, this.core, this.core._extensions);
+              
+                this.core.initialize(this.coreConfig, [this.plugin, new ChannelPlugin()]);
                 Assert.equal(true, this.plugin.isInitialized());
 
+              
                 objForEachKey({
                     id: 'some id',
                     model: 'some model',
@@ -88,7 +188,15 @@ export class ReactNativePluginTests extends AITestClass {
                 this.deviceModule[DEVICE_MODEL] = "theModel";
                 this.deviceModule[UNIQUE_ID] = "theDeviceId";
 
-                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin, new ChannelPlugin() ]);
+
                 Assert.equal(true, this.plugin.isInitialized());
 
                 Assert.notDeepEqual(expectation, actual, 'Telemetry items are not equal yet');
@@ -116,7 +224,14 @@ export class ReactNativePluginTests extends AITestClass {
                 this.deviceModule[DEVICE_MODEL] = "theModel";
                 this.deviceModule[UNIQUE_ID] = promise;
 
-                this.plugin.initialize(this.config, this.core, this.core._extensions);
+                let coreConfig:IConfiguration = {
+                    instrumentationKey: "test",
+                    extensionConfig: {
+                        [this.plugin.identifier]: this.config
+                    }
+                };
+
+                this.core.initialize(coreConfig, [ this.plugin, new ChannelPlugin() ]);
                 Assert.equal(true, this.plugin.isInitialized());
 
                 Assert.equal(undefined, (actual.ext || {}).device, "Device should not be populated yet.");
@@ -188,28 +303,11 @@ export class ReactNativePluginTests extends AITestClass {
             test: () => {
                 const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
-
-                this.plugin.initialize(this.config, this.core, []);
-                Assert.equal(false, this.plugin['_config'].disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config'].disableExceptionCollection, 'disableExceptionCollection is false');
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
                 Assert.ok(autoCollectExceptionStub.calledOnce);
-            }
-        });
-
-        this.testCase({
-            name: 'Autocollection does not run when disabled from root config',
-            test: () => {
-                const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
-                const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
-                this.config['disableDeviceCollection'] = true;
-                this.config['disableExceptionCollection'] = true;
-                this.plugin.initialize(this.config, this.core, []);
-
-                Assert.equal(true, this.plugin['_config'].disableDeviceCollection, 'disableDeviceCollection is true');
-                Assert.equal(true, this.plugin['_config'].disableExceptionCollection, 'disableExceptionCollection is true');
-                Assert.ok(autoCollectStub.notCalled);
-                Assert.ok(autoCollectExceptionStub.notCalled);
             }
         });
 
@@ -219,10 +317,18 @@ export class ReactNativePluginTests extends AITestClass {
                 this.plugin = new ReactNativePlugin({disableDeviceCollection: true, disableExceptionCollection: true});
                 const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
-                this.plugin.initialize(this.config, this.core, []);
-
-                Assert.equal(true, this.plugin['_config'].disableDeviceCollection, 'disableDeviceCollection is true');
-                Assert.equal(true, this.plugin['_config'].disableExceptionCollection, 'disableExceptionCollection is true');
+                let reactNativeConfig : IReactNativePluginConfig = {
+                    disableDeviceCollection : true,
+                    disableExceptionCollection : true
+                }
+                let config = this.coreConfig;
+                config.extensionConfig = config.extensionConfig || {};
+                config.extensionConfig[this.plugin.identifier] = reactNativeConfig;
+               
+                this.core.initialize(config, [ this.plugin, new ChannelPlugin() ]);
+                
+                Assert.equal(true, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is true');
+                Assert.equal(true, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is true');
                 Assert.ok(autoCollectStub.notCalled);
                 Assert.ok(autoCollectExceptionStub.notCalled);
             }
@@ -234,10 +340,10 @@ export class ReactNativePluginTests extends AITestClass {
                 this.plugin = new ReactNativePlugin({} as any);
                 const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
-                this.plugin.initialize(this.config, this.core, []);
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
 
-                Assert.equal(false, this.plugin['_config'].disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.equal(false, this.plugin['_config'].disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.equal(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
                 Assert.ok(autoCollectExceptionStub.calledOnce);
             }
@@ -249,10 +355,10 @@ export class ReactNativePluginTests extends AITestClass {
                 this.plugin = new ReactNativePlugin({foo: 'bar'} as any);
                 const autoCollectStub = this.sandbox.stub(this.plugin as any, '_collectDeviceInfo');
                 const autoCollectExceptionStub = this.sandbox.stub(this.plugin as any, '_setExceptionHandler').callsFake(() => true);
-                this.plugin.initialize(this.config, this.core, []);
+                this.core.initialize(this.coreConfig, [ this.plugin, new ChannelPlugin() ]);
 
-                Assert.deepEqual(false, this.plugin['_config'].disableDeviceCollection, 'disableDeviceCollection is false');
-                Assert.deepEqual(false, this.plugin['_config'].disableExceptionCollection, 'disableExceptionCollection is false');
+                Assert.deepEqual(false, this._getConfig(this.plugin).disableDeviceCollection, 'disableDeviceCollection is false');
+                Assert.deepEqual(false, this._getConfig(this.plugin).disableExceptionCollection, 'disableExceptionCollection is false');
                 Assert.ok(autoCollectStub.calledOnce);
                 Assert.ok(autoCollectExceptionStub.calledOnce);
             }
@@ -266,8 +372,62 @@ export class ReactNativePluginTests extends AITestClass {
     private _getDeviceInfoModule(plugin: any): any {
         return plugin._getDbgPlgTargets()[1];
     }
+
+    private _getConfig(plugin: any): any {
+        return plugin._getDbgPlgTargets()[2];
+    }
 }
 
 export function runTests() {
     new ReactNativePluginTests().registerTests();
+}
+
+
+class ChannelPlugin implements IPlugin {
+    public isFlushInvoked = false;
+    public isTearDownInvoked = false;
+    public isResumeInvoked = false;
+    public isPauseInvoked = false;
+
+    public identifier = "Sender";
+
+    public priority: number = 1001;
+
+    constructor() {
+        this.processTelemetry = this._processTelemetry.bind(this);
+    }
+    public pause(): void {
+        this.isPauseInvoked = true;
+    }
+
+    public resume(): void {
+        this.isResumeInvoked = true;
+    }
+
+    public teardown(): void {
+        this.isTearDownInvoked = true;
+    }
+
+    public flush(async?: boolean, callBack?: () => void): void {
+        this.isFlushInvoked = true;
+        if (callBack) {
+            callBack();
+        }
+    }
+
+    public processTelemetry(env: ITelemetryItem) {
+        // Mocked - Do Nothing
+    }
+
+    public setNextPlugin(next: any) {
+        // no next setup
+    }
+
+    public initialize = (config: IConfiguration, core: IAppInsightsCore, plugin: IPlugin[]) => {
+        // Mocked - Do Nothing
+    }
+
+    private _processTelemetry(env: ITelemetryItem) {
+        // Mocked - Do Nothing
+    }
 }
