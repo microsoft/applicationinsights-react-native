@@ -3,20 +3,25 @@
 
 import dynamicProto from "@microsoft/dynamicproto-js";
 import {
-    AnalyticsPluginIdentifier, ConfigurationManager, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
+    AnalyticsPluginIdentifier, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
 } from "@microsoft/applicationinsights-common";
 import {
-    BaseTelemetryPlugin, IAppInsightsCore, IPlugin, IProcessTelemetryContext, IProcessTelemetryUnloadContext, ITelemetryItem,
+    BaseTelemetryPlugin, IAppInsightsCore, IConfigDefaults, IPlugin, IProcessTelemetryContext, IProcessTelemetryUnloadContext, ITelemetryItem,
     ITelemetryPlugin, ITelemetryUnloadState, _eInternalMessageId, _throwInternal, _warnToConsole, arrForEach, dumpObj, eLoggingSeverity,
-    getExceptionName,  isUndefined, objForEachKey
+    getExceptionName, onConfigChange
 } from "@microsoft/applicationinsights-core-js";
 import { getGlobal, strShimUndefined } from "@microsoft/applicationinsights-shims";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";
-import { isPromiseLike, isString, ITimerHandler, scheduleTimeout } from "@nevware21/ts-utils";
+import { isPromiseLike, isString, ITimerHandler, objDeepFreeze, scheduleTimeout } from "@nevware21/ts-utils";
 import { IDeviceInfoModule } from "./Interfaces/IDeviceInfoModule";
 import { getReactNativeDeviceInfo } from "./DeviceInfo/ReactNativeDeviceInfo";
 
 declare var global: Window;
+const defaultReactNativePluginConfig: IConfigDefaults<IReactNativePluginConfig> = objDeepFreeze({
+    disableDeviceCollection: false,
+    disableExceptionCollection: false,
+    uniqueIdPromiseTimeout: 5000
+});
 
 export class ReactNativePlugin extends BaseTelemetryPlugin {
 
@@ -39,6 +44,9 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
         let _waitingTimer: ITimerHandler;
         let _waitingItems: { item: ITelemetryItem, itemCtx?: IProcessTelemetryContext }[] = null;
         let _deviceInfoModule: IDeviceInfoModule;
+       
+        let _deviceInfoNeedsUpdate:boolean;
+        let exceptionHandlerSet:boolean;
     
         dynamicProto(ReactNativePlugin, this, (_self, _base) => {
             _initDefaults();
@@ -48,33 +56,37 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
                 core?: IAppInsightsCore,
                 extensions?: IPlugin[]
             ) => {
+                let identifier = this.identifier;
                 if (!_self.isInitialized()) {
                     _base.initialize(config, core, extensions);
 
-                    const inConfig = config || {};
-                    const defaultConfig = _getDefaultConfig();
-                    objForEachKey(defaultConfig, (option, value) => {
-                        _config[option] = ConfigurationManager.getConfig(
-                            inConfig as any,
-                            option,
-                            _self.identifier,
-                            !isUndefined(_config[option]) ? _config[option] : value
-                        );
-                    });
-        
-                    if (!_config.disableDeviceCollection) {
-                        _self._collectDeviceInfo();
-                    }
-        
-                    if (core && core.getPlugin) {
-                        _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
-                    }
-        
-                    if (!_config.disableExceptionCollection) {
-                        _self._setExceptionHandler();
-                    }
+                    _self._addHook(onConfigChange(config, (details) => {
+                        let ctx = _self._getTelCtx();
+                        _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
+
+                        if (!_config.disableDeviceCollection && _deviceInfoNeedsUpdate) {
+                            _self._collectDeviceInfo();
+                            _deviceInfoNeedsUpdate = false;
+                        }
+            
+                        if (core && core.getPlugin) {
+                            _analyticsPlugin = core.getPlugin<any>(AnalyticsPluginIdentifier)?.plugin as IAppInsights;
+                        } else {
+                            _analyticsPlugin = null;
+                        }
+
+                        if (exceptionHandlerSet){
+                            _resetGlobalErrorHandler();
+                        }
+            
+                        if (!_config.disableExceptionCollection) {
+                            _self._setExceptionHandler();
+                            exceptionHandlerSet = true;
+                        }
+                    }));
                 }
             };
+
 
             _self.processTelemetry = (item: ITelemetryItem, itemCtx?: IProcessTelemetryContext) => {
                 if (!_waitingForId) {
@@ -93,6 +105,7 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
             _self.setDeviceInfoModule = (deviceInfoModule: IDeviceInfoModule) => {
                 // Set the configured deviceInfoModule
                 _deviceInfoModule = deviceInfoModule;
+                _deviceInfoNeedsUpdate = true;
             };
 
             _self.setDeviceId =_setDeviceId;
@@ -110,11 +123,11 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
              */
             _self._collectDeviceInfo = () => {
                 try {
-                    let deviceInfoModule = _deviceInfoModule || getReactNativeDeviceInfo();
+                    _deviceInfoModule = _deviceInfoModule || getReactNativeDeviceInfo();
 
-                    _device.deviceClass = deviceInfoModule.getDeviceType();
-                    _device.model = deviceInfoModule.getModel();
-                    let uniqueId = deviceInfoModule.getUniqueId(); // Installation ID support different versions which return a promise vs string
+                    _device.deviceClass = _deviceInfoModule.getDeviceType();
+                    _device.model = _deviceInfoModule.getModel();
+                    let uniqueId = _deviceInfoModule.getUniqueId(); // Installation ID support different versions which return a promise vs string
                     if (isPromiseLike(uniqueId)) {
                         _waitingForId = true;
                         if (_waitingTimer) {
@@ -147,11 +160,13 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
 
             function _initDefaults() {
                 _device = {};
-                _config = config || _getDefaultConfig();
+                _config = {};
                 _analyticsPlugin = null;
                 _defaultHandler = null;
                 _waitingForId = false;
                 _deviceInfoModule = null;
+                _deviceInfoNeedsUpdate = true;
+                exceptionHandlerSet = false;
             }
 
             function _setDeviceId(newId: string) {
@@ -234,18 +249,9 @@ export class ReactNativePlugin extends BaseTelemetryPlugin {
             // Test Hooks
             (_self as any)._config = _config;
             (_self as any)._getDbgPlgTargets = () => {
-                return [_device, _deviceInfoModule];
+                return [_device, _deviceInfoModule, _config];
             }
         });
-
-        function _getDefaultConfig(): IReactNativePluginConfig {
-            return {
-                // enable auto collection by default
-                disableDeviceCollection: false,
-                disableExceptionCollection: false,
-                uniqueIdPromiseTimeout: 5000
-            };
-        }
     }
 
     public initialize(
