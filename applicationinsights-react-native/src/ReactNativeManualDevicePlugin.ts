@@ -29,7 +29,7 @@ export class ReactNativeManualDevicePlugin extends BaseTelemetryPlugin {
     _nextPlugin?: ITelemetryPlugin;
 
     private _setExceptionHandler: () => void;
-    private _collectDeviceInfo: () => void;
+    private _collectDeviceInfo: () => boolean;
 
     constructor(config?: IReactNativePluginConfig) {
         super();
@@ -64,8 +64,7 @@ export class ReactNativeManualDevicePlugin extends BaseTelemetryPlugin {
                         _config = ctx.getExtCfg<IReactNativePluginConfig>(identifier, defaultReactNativePluginConfig);
 
                         if (!_config.disableDeviceCollection && _deviceInfoNeedsUpdate) {
-                            _self._collectDeviceInfo();
-                            _deviceInfoNeedsUpdate = false;
+                            _deviceInfoNeedsUpdate = !_self._collectDeviceInfo();
                         }
             
                         if (core && core.getPlugin) {
@@ -120,9 +119,12 @@ export class ReactNativeManualDevicePlugin extends BaseTelemetryPlugin {
             /**
              * Automatically collects native device info for this device
              */
-            _self._collectDeviceInfo = () => {
+            _self._collectDeviceInfo = () : boolean => {
                 try {
                     _deviceInfoModule = this.getDeviceInfoModule(_deviceInfoModule);
+                    if (!_deviceInfoModule) {
+                        return false;
+                    }
                     _device.deviceClass = _deviceInfoModule.getDeviceType();
                     _device.model = _deviceInfoModule.getModel();
                     let uniqueId = _deviceInfoModule.getUniqueId(); // Installation ID support different versions which return a promise vs string
@@ -146,6 +148,7 @@ export class ReactNativeManualDevicePlugin extends BaseTelemetryPlugin {
                     } else if (isString(uniqueId)) {
                         _device.id = uniqueId;
                     }
+                    return true;
                 } catch (e) {
                     _warnToConsole(_self.diagLog(), "Failed to get DeviceInfo: " + getExceptionName(e) + " - " + dumpObj(e));
                 }
