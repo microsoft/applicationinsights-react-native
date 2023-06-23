@@ -4,10 +4,10 @@
 
 import { getReactNativeDeviceInfo } from "./DeviceInfo/ReactNativeDeviceInfo";
 import { IDeviceInfoModule } from "./Interfaces/IDeviceInfoModule";
-import { ReactNativeBasePlugin } from "./ReactNativeBasePlugin";
+import { ReactNativeManualDevicePlugin } from "./ReactNativeManualDevicePlugin";
 
 
-export class ReactNativePlugin extends ReactNativeBasePlugin {
+export class ReactNativePlugin extends ReactNativeManualDevicePlugin {
     protected getDeviceInfoModule(_deviceInfoModule): IDeviceInfoModule {
         return _deviceInfoModule || getReactNativeDeviceInfo();
     }

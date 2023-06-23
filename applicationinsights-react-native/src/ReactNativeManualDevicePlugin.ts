@@ -22,7 +22,7 @@ const defaultReactNativePluginConfig: IConfigDefaults<IReactNativePluginConfig> 
     uniqueIdPromiseTimeout: 5000
 });
 
-export class ReactNativeBasePlugin extends BaseTelemetryPlugin {
+export class ReactNativeManualDevicePlugin extends BaseTelemetryPlugin {
 
     identifier: string = "AppInsightsReactNativePlugin";
     priority: number = 140;
@@ -47,7 +47,7 @@ export class ReactNativeBasePlugin extends BaseTelemetryPlugin {
         let _deviceInfoNeedsUpdate:boolean;
         let exceptionHandlerSet:boolean;
     
-        dynamicProto(ReactNativeBasePlugin, this, (_self, _base) => {
+        dynamicProto(ReactNativeManualDevicePlugin, this, (_self, _base) => {
             _initDefaults();
 
             _self.initialize = (
@@ -256,7 +256,7 @@ export class ReactNativeBasePlugin extends BaseTelemetryPlugin {
 
     protected getDeviceInfoModule(_deviceInfoModule): IDeviceInfoModule {
         if (!_deviceInfoModule) {
-            console.log("ReactNativePlugin: Please provide device-info");
+            _warnToConsole(this.diagLog(), "Failed to get DeviceInfo. Provide DeviceInfo while init or turn it off by setting disableDeviceCollection flag to true");
             return null;
         }
         return _deviceInfoModule;
