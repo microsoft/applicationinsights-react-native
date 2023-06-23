@@ -5,6 +5,7 @@ import { ReactNativePlugin } from "./ReactNativePlugin";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";
 import { IDeviceInfoModule } from "./Interfaces/IDeviceInfoModule";
 import { getReactNativeDeviceInfo } from "./DeviceInfo/ReactNativeDeviceInfo";
+import { ReactNativeBasePlugin } from "./ReactNativeBasePlugin";
 
-export { ReactNativePlugin, INativeDevice, IReactNativePluginConfig, IDeviceInfoModule };
+export { ReactNativePlugin, ReactNativeBasePlugin, INativeDevice, IReactNativePluginConfig, IDeviceInfoModule };
 export { getReactNativeDeviceInfo };
