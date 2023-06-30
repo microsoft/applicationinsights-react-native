@@ -7,9 +7,9 @@ let buildNum = null;
 let preRel = null;
 let isRelease = false;
 let testOnly = null;
-let updateAll = true;
+let updateAll = false;
 let isReact = false;
-let isReactNative = false;
+let isReactNative = true;
 
 const theVersion = require(process.cwd() + "/version.json");
 const orgPkgVersions = {};

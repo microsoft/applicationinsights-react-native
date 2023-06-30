@@ -1,17 +1,17 @@
 {
   "name": "applicationinsightsreactnativesample",
   "version": "3.0.0",
-    "description": "Microsoft Application Insights React Native Plugin Sample",
-    "author": "Microsoft Application Insights Team",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/microsoft/applicationinsights-react-native"
-    },
-    "bugs": {
-        "url": "https://github.com/microsoft/applicationinsights-react-native/issues"
-    },
-    "homepage": "https://github.com/microsoft/applicationinsights-react-native#readme",
+  "description": "Microsoft Application Insights React Native Plugin Sample",
+  "author": "Microsoft Application Insights Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/applicationinsights-react-native"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/applicationinsights-react-native/issues"
+  },
+  "homepage": "https://github.com/microsoft/applicationinsights-react-native#readme",
   "scripts": {
     "android": "react-native run-android",
     "start": "react-native start",
@@ -21,7 +21,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@microsoft/applicationinsights-react-native": "^3.0.0",
+    "@microsoft/applicationinsights-react-native":  "^3.0.0",
     "@microsoft/applicationinsights-web": "^2.8.6",
     "react": "^18.0.0",
     "react-native": "^0.69.3",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@babel/runtime": "^7.12.5",
+    "@babel/runtime": "^7.22.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^26.0.23",
