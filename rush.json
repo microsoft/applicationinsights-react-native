@@ -23,6 +23,11 @@
       "packageName": "@microsoft/applicationinsights-react-native",
       "projectFolder": "applicationinsights-react-native",
       "shouldPublish": true
+    },
+    {
+      "packageName": "applicationinsightsreactnativesample",
+      "projectFolder": "sample/applicationinsightsreactnativesample",
+      "shouldPublish": true
     }
   ]
 }
