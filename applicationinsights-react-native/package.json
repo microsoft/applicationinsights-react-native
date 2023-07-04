@@ -3,6 +3,10 @@
     "version": "3.0.2",
     "description": "Microsoft Application Insights React Native Plugin",
     "main": "dist-esm/index.js",
+    "exports": {
+        ".": "dist-esm/index.js",
+        "./manual": "dist-esm/manualIndex.js"
+    },
     "types": "types/index.d.ts",
     "sideEffects": false,
     "author": "Microsoft Application Insights Team",
@@ -55,7 +59,6 @@
         "qunit": "^2.11.2",
         "react": "^18.0.0",
         "react-native": "^0.69.9",
-        "react-native-device-info": "^10.0.2",
         "globby": "^11.0.0",
         "magic-string": "^0.25.7",
         "@rollup/plugin-commonjs": "^18.0.0",

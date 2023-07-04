@@ -77,5 +77,10 @@
         "react-native": "*",
         "react-native-device-info": ">=5.2.1",
         "tslib": "*"
+    },
+    "peerDependenciesMeta": {
+        "react-native-device-info": {
+            "optional": true
+        }
     }
 }
