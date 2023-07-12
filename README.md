@@ -22,6 +22,9 @@ npm install --save react-native-device-info
 react-native link react-native-device-info
 ```
 
+## Initializing the Plugin Without Device Package
+Noticed that react-native-device-info package have conflicts with Expo, a second entry point is created, please see [`Manual-readme`](https://github.com/rebeccahughes/readme) for further details.
+
 ## Initializing the Plugin
 
 To use this plugin, you only need to construct the plugin and add it as an `extension` to your existing Application Insights instance.
