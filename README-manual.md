@@ -1,20 +1,14 @@
-## Initializing the ReactNativeManualDevice Plugin
+# Microsoft Application Insights JavaScript SDK - React Native Manual Device Plugin
+
+## Getting Started
+```zsh
+npm install --save @microsoft/applicationinsights-react-native @microsoft/applicationinsights-web
+```
+## Initializing the Plugin
 
 To use this plugin, you only need to construct the plugin and add it as an `extension` to your existing Application Insights instance.
 
-```ts
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-import { ReactNativeManualDevicePlugin } from '@microsoft/applicationinsights-react-native/manual';
-
-var RNMPlugin = new ReactNativeManualDevicePlugin();
-var appInsights = new ApplicationInsights({
-    config: {
-        instrumentationKey: 'YOUR_INSTRUMENTATION_KEY_GOES_HERE',
-        extensions: [RNMPlugin]
-    }
-});
-appInsights.loadAppInsights();
-```
+However, different from the default react native plugin, this plugin needs to have device info provided, or set to be disabled manually.
 
 ### Disabling automatic device info collection
 
