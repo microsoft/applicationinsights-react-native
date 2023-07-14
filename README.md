@@ -16,7 +16,7 @@ React Native Plugin for the Application Insights Javascript SDK
 >
 > Since v3, support for accessing the DeviceInfo has been abstracted into an interface ```IDeviceInfoModule``` to enable you to use / set your own device info module. This interface uses the same function names and result `react-native-device-info`.
 
-> Note for Expo Users: If you are using Expo, which does not support the react-native-device-info package, you have an alternative option. You can use the React Native Manual Device Plugin instead. Please refer to the [`README-manual`](https://github.com/microsoft/applicationinsights-react-native/blob/main/README-manual.md) for further details on how to integrate it.
+> Note for Expo Users: If you are using Expo, which does not support the react-native-device-info package, you have an alternative option. You can use the React Native Manual Device Plugin instead. Please refer to the [`README-manual`](./README-manual.md) for further details on how to integrate it.
 
 ```zsh
 npm install --save @microsoft/applicationinsights-react-native @microsoft/applicationinsights-web
