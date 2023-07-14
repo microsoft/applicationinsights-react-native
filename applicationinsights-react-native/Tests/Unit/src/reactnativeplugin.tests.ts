@@ -1,10 +1,8 @@
 ﻿import { Assert, AITestClass } from "@microsoft/ai-test-framework";
 import { AppInsightsCore, DiagnosticLogger, IAppInsightsCore, IConfiguration, IPlugin, ITelemetryItem, objForEachKey } from "@microsoft/applicationinsights-core-js";
-import { ReactNativePlugin, INativeDevice, IReactNativePluginConfig } from '../../../src/index';
-import dynamicProto from '@microsoft/dynamicproto-js';
-import { DeviceInfoModule } from "react-native-device-info/lib/typescript/internal/privateTypes";
+import { ReactNativePlugin, IReactNativePluginConfig } from '../../../src/index';
 import { DeviceModule, DEVICE_MODEL, DEVICE_TYPE, UNIQUE_ID } from "../../../src/DeviceInfo/DeviceModule";
-import { ITestContext } from "@microsoft/ai-test-framework/dist-esm/src/TestCase";
+
 
 export class ReactNativePluginTests extends AITestClass {
     private plugin: ReactNativePlugin;
