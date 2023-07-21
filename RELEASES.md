@@ -1,5 +1,16 @@
 # Releases
 
+## 4.0.0 (July 21st, 2023)
+
+Major update to support ApplicationInsights v3.x, see the [ApplicationInsights breaking changes](https://microsoft.github.io/ApplicationInsights-JS/upgrade/v3_BreakingChanges.html)
+
+### Changelog
+
+- #7 React Native Expo Support
+- #23 Update main branch to prepare for next major version.
+- #21 dynamic config change
+- #24 Quick fix for setVersion.json
+
 ## 3.0.3 (June 7th, 2023)
 
 ### Changelog
