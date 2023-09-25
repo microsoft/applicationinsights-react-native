@@ -14,7 +14,7 @@ However, different from the default react native plugin, this plugin needs to ha
 
 ```ts
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-
+import {ReactNativeManualDevicePlugin} from '@microsoft/applicationinsights-react-native/dist-esm/manualIndex';
 var RNMPlugin = new ReactNativeManualDevicePlugin();
 var appInsights = new ApplicationInsights({
     config: {

@@ -14,7 +14,6 @@
       "declaration": true,
       "outDir": "dist-esm/",
       "rootDir": "common/Tests/Framework",
-      "suppressImplicitAnyIndexErrors": true,
       "allowSyntheticDefaultImports": true
     },
     "include": [
