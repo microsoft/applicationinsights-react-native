@@ -1,5 +1,11 @@
 # Releases
 
+## 4.0.1 (Sep 24st, 2023)
+
+### Changelog
+
+- #29 [expo] correct export path to support android expo 
+
 ## 4.0.0 (July 21st, 2023)
 
 Major update to support ApplicationInsights v3.x, see the [ApplicationInsights breaking changes](https://microsoft.github.io/ApplicationInsights-JS/upgrade/v3_BreakingChanges.html)
