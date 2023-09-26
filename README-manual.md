@@ -1,5 +1,8 @@
 # Microsoft Application Insights JavaScript SDK - React Native Manual Device Plugin
 
+# Purpose
+This optional plugin is designed because expo could not run with device-info packages
+
 ## Getting Started
 ```zsh
 npm install --save @microsoft/applicationinsights-react-native @microsoft/applicationinsights-web
@@ -10,11 +13,12 @@ To use this plugin, you only need to construct the plugin and add it as an `exte
 
 However, different from the default react native plugin, this plugin needs to have device info provided, or set to be disabled manually.
 
+
 ### Disabling automatic device info collection
 
 ```ts
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-import {ReactNativeManualDevicePlugin} from '@microsoft/applicationinsights-react-native/dist-esm/manualIndex';
+import {ReactNativeManualDevicePlugin} from '@microsoft/applicationinsights-react-native/manual';
 var RNMPlugin = new ReactNativeManualDevicePlugin();
 var appInsights = new ApplicationInsights({
     config: {
@@ -24,6 +28,11 @@ var appInsights = new ApplicationInsights({
     }
 });
 appInsights.loadAppInsights();
+```
+#### Note for Android/iOS Expo Users
+Due to the specific internal logic in Expo, importing the ReactNativeManualDevicePlugin for the app might fail. If you encounter this issue, manually import the plugin using the following approach:
+```ts
+import {ReactNativeManualDevicePlugin} from '@microsoft/applicationinsights-react-native/dist-esm/manualIndex';
 ```
 
 ### Using your own device info collection class
