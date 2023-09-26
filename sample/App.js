@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
-// import {ReactNativeManualDevicePlugin} from '@microsoft/applicationinsights-react-native/dist-esm/manualIndex'; // for android
-import {ReactNativeManualDevicePlugin} from '@microsoft/applicationinsights-react-native/manual'; // for web
+// import { ReactNativeManualDevicePlugin } from '@microsoft/applicationinsights-react-native/dist-esm/manualIndex'; // for android
+import { ReactNativeManualDevicePlugin } from '@microsoft/applicationinsights-react-native/manual'; // for web
 
 var RNPlugin = new ReactNativeManualDevicePlugin();
 var appInsights = new ApplicationInsights({
