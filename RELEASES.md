@@ -1,6 +1,6 @@
 # Releases
 
-## 4.0.1 (Sep 24st, 2023)
+## 4.0.1 (Sep 26st, 2023)
 
 ### Changelog
 
