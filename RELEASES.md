@@ -1,5 +1,12 @@
 # Releases
 
+## 4.0.2 (Nov 3rd, 2023)
+
+### Changelog
+
+- #32 [pre-release] udpate application insight dependency, get ready for release 
+
+
 ## 4.0.1 (Sep 26st, 2023)
 
 ### Changelog
