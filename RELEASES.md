@@ -5,7 +5,7 @@
 ### Changelog
 
 - #32 [pre-release] udpate application insight dependency, get ready for release 
-
+- #31 Add Issues state reporting script 
 
 ## 4.0.1 (Sep 26st, 2023)
 
