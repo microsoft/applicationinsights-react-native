@@ -1,5 +1,14 @@
 # Releases
 
+## 4.0.3 (Feb 12th, 2024)
+
+### Changelog
+
+- #34 Update to Application Insights ^3.0.8
+  - Update to dynamicProto-js ^2.0.3
+  - Update GitHub status tool script
+  - Update GitHub status script to include -dump switch
+
 ## 4.0.2 (Nov 3rd, 2023)
 
 ### Changelog
