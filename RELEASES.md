@@ -1,5 +1,11 @@
 # Releases
 
+## 4.1.0 (Feb 15th, 2024)
+
+### Changelog
+
+- #36 Update to Application Insights ^3.1.0
+
 ## 4.0.3 (Feb 12th, 2024)
 
 ### Changelog
