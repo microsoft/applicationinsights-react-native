@@ -39,7 +39,8 @@
         "fullCleanBuild": "npm run fullClean && npm run rebuild",
         "ai-min": "node common/scripts/install-run-rush.js ai-min",
         "ai-restore": "node common/scripts/install-run-rush.js ai-restore",
-        "gh-status": "node ./tools/status-tools/github-status.js"
+        "gh-status": "node ./tools/status-tools/github-status.js",
+        "npm-package": "node ./tools/release-tools/npm-package.js"
     },
     "devDependencies": {
         "@microsoft/rush": "^5.97.0",
