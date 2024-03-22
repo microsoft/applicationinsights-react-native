@@ -87,5 +87,8 @@
         "react-native-device-info": {
             "optional": true
         }
-    }
+    },
+    "publishConfig": {
+        "tag": "Release4.x"
+      }
 }
