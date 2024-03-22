@@ -90,5 +90,5 @@
     },
     "publishConfig": {
         "tag": "Release4.x"
-      }
+    }
 }
