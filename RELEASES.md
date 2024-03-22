@@ -1,5 +1,14 @@
 # Releases
 
+## 4.1.1 (March 22nd, 2024)
+
+### Changelog
+
+- #39 Update to Application Insights ^3.1.2
+  - Fix version 3.1.1 giving TypeError: Cannot read properties of undefined (reading 'getCrypto')
+  - Fix Circular dependencies of version 3.1.1
+  - Fix Excessive memory usage for SPA where unload hooks keep accumulating
+
 ## 4.1.0 (Feb 15th, 2024)
 
 ### Changelog
