@@ -1,6 +1,6 @@
 {
   "name": "applicationinsights-reactnative-sample",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
-    "@microsoft/applicationinsights-react-native": "^4.1.0",
+    "@microsoft/applicationinsights-react-native": "^4.1.1",
     "@microsoft/applicationinsights-web": "^3.1.0",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
