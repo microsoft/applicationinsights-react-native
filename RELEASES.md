@@ -1,5 +1,22 @@
 # Releases
 
+## 4.0.4 (March 25th, 2024)
+
+### Changelog
+
+- #44 Update to Application Insights ^3.0.9
+
+  !! Critical Bug fix for Memoery Leak !!
+[#2311](https://github.com/microsoft/ApplicationInsights-JS/issues/2311)
+It also contains a packaging fix for webpack [#2307](https://github.com/microsoft/ApplicationInsights-JS/issues/2307) (caused by [#2306]](https://github.com/microsoft/ApplicationInsights-JS/issues/2306) )
+
+  - Fix Circular dependencies
+  - Fix Excessive memory usage for SPA where unload hooks keep accumulating
+  - Internal Task: Update npm pack sequence (#2244)
+  - Fix  Update namespaced types (DTS) generation to include referenced bundles
+  - Remove 403 as a “retriable” error code
+
+
 ## 4.0.3 (Feb 12th, 2024)
 
 ### Changelog

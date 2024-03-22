@@ -1,6 +1,6 @@
 {
     "name": "@microsoft/applicationinsights-react-native",
-    "version": "4.0.3",
+    "version": "4.0.4",
     "description": "Microsoft Application Insights React Native Plugin",
     "main": "dist-esm/index.js",
     "exports": {
@@ -87,8 +87,5 @@
         "react-native-device-info": {
             "optional": true
         }
-    },
-    "publishConfig": {
-        "tag": "Release4.x"
     }
 }
