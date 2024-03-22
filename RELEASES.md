@@ -1,6 +1,6 @@
 # Releases
 
-## 4.0.4 (March 25th, 2024)
+## 4.0.4 (March 22nd, 2024)
 
 ### Changelog
 
@@ -12,7 +12,7 @@ It also contains a packaging fix for webpack [#2307](https://github.com/microsof
 
   - Fix Circular dependencies
   - Fix Excessive memory usage for SPA where unload hooks keep accumulating
-  - Internal Task: Update npm pack sequence (#2244)
+  - Internal Task: Update npm pack sequence
   - Fix  Update namespaced types (DTS) generation to include referenced bundles
   - Remove 403 as a “retriable” error code
 
