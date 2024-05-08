@@ -1,5 +1,11 @@
 # Releases
 
+## 4.1.2 (May 8th, 2024)
+
+### Changelog
+
+- #47 Update AppInsights Core to 3.2.0
+
 ## 4.1.1 (March 22nd, 2024)
 
 ### Changelog
