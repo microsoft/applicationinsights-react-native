@@ -4,8 +4,14 @@
     "description": "Microsoft Application Insights React Native Plugin",
     "main": "dist-esm/index.js",
     "exports": {
-        ".": "./dist-esm/index.js",
-        "./manual": "./dist-esm/manualIndex.js"
+        ".": {
+            "types": "./types/index.d.ts",
+            "import": "./dist-esm/index.js"
+        },
+        "./manual": {
+            "types": "./types/manualIndex.d.ts",
+            "import": "./dist-esm/manualIndex.js"
+        }
     },
     "types": "types/index.d.ts",
     "sideEffects": false,
