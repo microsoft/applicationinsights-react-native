@@ -72,7 +72,7 @@
         "uglify-js": "3.16.0"
     },
     "dependencies": {
-        "@microsoft/applicationinsights-common": "^3.2.0",
+        "@microsoft/applicationinsights-common": "^3.3.0",
         "@microsoft/applicationinsights-core-js": "^3.2.0",
         "@microsoft/applicationinsights-shims": "^3.0.1",
         "@microsoft/dynamicproto-js": "^2.0.3",
