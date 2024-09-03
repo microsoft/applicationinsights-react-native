@@ -6,7 +6,7 @@
     "pkgs": {
         "@microsoft/applicationinsights-react-native": {
             "package": "applicationinsights-react-native/package.json",
-            "release": "4.3.1"
+            "release": "4.3.2"
         }
     }
 }
