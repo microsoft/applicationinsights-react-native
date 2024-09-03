@@ -1,5 +1,13 @@
 # Releases
 
+## 4.3.2 (Sep 3rd, 2024) 
+
+This release contains a potential type break change due to the definition of the expCfg in [IConfiguration](https://github.com/microsoft/ApplicationInsights-JS/blob/main/shared/AppInsightsCore/src/JavaScriptSDK.Interfaces/IConfiguration.ts)
+
+### Changelog
+
+- #55 [pre-release] update application insights to 3.3.2
+
 ## 4.3.1 (Aug 23rd, 2024)
 
 ### Changelog
