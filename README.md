@@ -48,11 +48,12 @@ appInsights.loadAppInsights();
 ```ts
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
-var RNPlugin = new ReactNativePlugin();
+var RNPlugin = new ReactNativePlugin({
+    disableDeviceCollection: true
+});
 var appInsights = new ApplicationInsights({
     config: {
         instrumentationKey: 'YOUR_INSTRUMENTATION_KEY_GOES_HERE',
-        disableDeviceCollection: true,
         extensions: [RNPlugin]
     }
 });
