@@ -1,5 +1,11 @@
 # Releases
 
+## 4.3.4 (Oct 31st, 2024)
+
+### Changelog
+
+- #61 [pre-release] update application insights to 3.3.4
+
 ## 4.3.3 (Sep 27th, 2024)
 
 ### Changelog

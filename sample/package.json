@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
-    "@microsoft/applicationinsights-react-native": "^4.3.3",
+    "@microsoft/applicationinsights-react-native": "^4.3.4",
     "@microsoft/applicationinsights-web": "^3.3.4",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
