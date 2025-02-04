@@ -9,8 +9,8 @@
       "version": "0.0.0",
       "dependencies": {
         "@microsoft/api-extractor": "^7.18.1",
-        "@microsoft/applicationinsights-common": "^3.3.4",
-        "@microsoft/applicationinsights-core-js": "^3.3.4",
+        "@microsoft/applicationinsights-common": "^3.3.5",
+        "@microsoft/applicationinsights-core-js": "^3.3.5",
         "@microsoft/applicationinsights-rollup-es3": "1.1.3",
         "@microsoft/applicationinsights-shims": "^3.0.1",
         "@microsoft/dynamicproto-js": "^2.0.3",
@@ -2225,28 +2225,28 @@
       }
     },
     "node_modules/@microsoft/applicationinsights-common": {
-      "version": "3.3.4",
-      "resolved": "https://registry.npmjs.org/@microsoft/applicationinsights-common/-/applicationinsights-common-3.3.4.tgz",
-      "integrity": "sha512-4ms16MlIvcP4WiUPqopifNxcWCcrXQJ2ADAK/75uok2mNQe6ZNRsqb/P+pvhUxc8A5HRlvoXPP1ptDSN5Girgw==",
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/@microsoft/applicationinsights-common/-/applicationinsights-common-3.3.5.tgz",
+      "integrity": "sha512-zZgMOY3ePBhjTrZ8+MXwAb0Y+Yi4iVDKOqIaz/KoCmj1BxX5JKFgaqYiN8Tvu5O0YPJpEKS4coYXRHbStDm/Hw==",
       "dependencies": {
-        "@microsoft/applicationinsights-core-js": "3.3.4",
+        "@microsoft/applicationinsights-core-js": "3.3.5",
         "@microsoft/applicationinsights-shims": "3.0.1",
         "@microsoft/dynamicproto-js": "^2.0.3",
-        "@nevware21/ts-utils": ">= 0.11.3 < 2.x"
+        "@nevware21/ts-utils": ">= 0.11.6 < 2.x"
       },
       "peerDependencies": {
         "tslib": ">= 1.0.0"
       }
     },
     "node_modules/@microsoft/applicationinsights-core-js": {
-      "version": "3.3.4",
-      "resolved": "https://registry.npmjs.org/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-3.3.4.tgz",
-      "integrity": "sha512-MummANF0mgKIkdvVvfmHQTBliK114IZLRhTL0X0Ep+zjDwWMHqYZgew0nlFKAl6ggu42abPZFK5afpE7qjtYJA==",
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-3.3.5.tgz",
+      "integrity": "sha512-8Gg18W5eOE3usXtkZ5iOqWAMU97hyjb7Oi1CtkWmxEoMUHMlQmqUD62n9BmVq/s5YfbUihGZHxc0keMJy0txAA==",
       "dependencies": {
         "@microsoft/applicationinsights-shims": "3.0.1",
         "@microsoft/dynamicproto-js": "^2.0.3",
-        "@nevware21/ts-async": ">= 0.5.2 < 2.x",
-        "@nevware21/ts-utils": ">= 0.11.3 < 2.x"
+        "@nevware21/ts-async": ">= 0.5.4 < 2.x",
+        "@nevware21/ts-utils": ">= 0.11.6 < 2.x"
       },
       "peerDependencies": {
         "tslib": ">= 1.0.0"
@@ -2860,11 +2860,11 @@
     "node_modules/@rush-temp/applicationinsights-react-native": {
       "version": "0.0.0",
       "resolved": "file:projects/applicationinsights-react-native.tgz",
-      "integrity": "sha512-v6s3vdoI749P9Z7jsEcIh6v5SNWB1NcdtbZL+XETOP0ELhqDJSf9f7Gxnr9rgKANKjArRfYW/yRa4ys/0OviDQ==",
+      "integrity": "sha512-UXVMoxBvsis0c6xko6ZC3BLDunhxz3vtSdDq0N5c8f5P8mAnDR/GLzLK/s7rOZPQC1BgZprRzczkOXeZLYIQHQ==",
       "dependencies": {
         "@microsoft/api-extractor": "^7.18.1",
-        "@microsoft/applicationinsights-common": "^3.3.4",
-        "@microsoft/applicationinsights-core-js": "^3.3.4",
+        "@microsoft/applicationinsights-common": "^3.3.5",
+        "@microsoft/applicationinsights-core-js": "^3.3.5",
         "@microsoft/applicationinsights-rollup-es3": "1.1.3",
         "@microsoft/applicationinsights-shims": "^3.0.1",
         "@microsoft/dynamicproto-js": "^2.0.3",
@@ -3094,9 +3094,9 @@
       "integrity": "sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ=="
     },
     "node_modules/@types/node": {
-      "version": "22.13.0",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.13.0.tgz",
-      "integrity": "sha512-ClIbNe36lawluuvq3+YYhnIN2CELi+6q8NpnM7PYp4hBn/TatfboPgVSm2rwKRfnV2M+Ty9GWDFI64KEe+kysA==",
+      "version": "22.13.1",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.13.1.tgz",
+      "integrity": "sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==",
       "dependencies": {
         "undici-types": "~6.20.0"
       }
@@ -4126,9 +4126,9 @@
       }
     },
     "node_modules/caniuse-lite": {
-      "version": "1.0.30001696",
-      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001696.tgz",
-      "integrity": "sha512-pDCPkvzfa39ehJtJ+OwGT/2yvT2SbjfHhiIW2LWOAcMQ7BzwxT/XuyUp4OTOd0XFWA6BKw0JalnBHgSi5DGJBQ==",
+      "version": "1.0.30001697",
+      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001697.tgz",
+      "integrity": "sha512-GwNPlWJin8E+d7Gxq96jxM6w0w+VFeyyXRsjU58emtkYqnbwHqXm5uT2uCmO0RQE9htWknOP4xtBlLmM/gWxvQ==",
       "funding": [
         {
           "type": "opencollective",
@@ -4737,9 +4737,9 @@
       "integrity": "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
     },
     "node_modules/electron-to-chromium": {
-      "version": "1.5.90",
-      "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.90.tgz",
-      "integrity": "sha512-C3PN4aydfW91Natdyd449Kw+BzhLmof6tzy5W1pFC5SpQxVXT+oyiyOG9AgYYSN9OdA/ik3YkCrpwqI8ug5Tug=="
+      "version": "1.5.91",
+      "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.91.tgz",
+      "integrity": "sha512-sNSHHyq048PFmZY4S90ax61q+gLCs0X0YmcOII9wG9S2XwbVr+h4VW2wWhnbp/Eys3cCwTxVF292W3qPaxIapQ=="
     },
     "node_modules/emoji-regex": {
       "version": "8.0.0",
@@ -6095,6 +6095,19 @@
       "resolved": "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz",
       "integrity": "sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw=="
     },
+    "node_modules/fsevents": {
+      "version": "2.3.3",
+      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+      "hasInstallScript": true,
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+      }
+    },
     "node_modules/function-bind": {
       "version": "1.1.2",
       "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
@@ -6891,9 +6904,9 @@
       }
     },
     "node_modules/import-fresh": {
-      "version": "3.3.0",
-      "resolved": "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.0.tgz",
-      "integrity": "sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==",
+      "version": "3.3.1",
+      "resolved": "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.1.tgz",
+      "integrity": "sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==",
       "dependencies": {
         "parent-module": "^1.0.0",
         "resolve-from": "^4.0.0"
@@ -7430,11 +7443,11 @@
       }
     },
     "node_modules/is-weakref": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/is-weakref/-/is-weakref-1.1.0.tgz",
-      "integrity": "sha512-SXM8Nwyys6nT5WP6pltOwKytLV7FqQ4UiibxVmW+EIosHcmCqkkjViTb5SNssDlkCiEYRP1/pdWUKVvZBmsR2Q==",
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/is-weakref/-/is-weakref-1.1.1.tgz",
+      "integrity": "sha512-6i9mGWSlqzNMEqpCp93KwRS1uUOodk2OJ6b+sq7ZPDSy2WuI5NFIxp/254TytR8ftefexkWn5xNiHUNpPOfSew==",
       "dependencies": {
-        "call-bound": "^1.0.2"
+        "call-bound": "^1.0.3"
       },
       "engines": {
         "node": ">= 0.4"
@@ -9725,9 +9738,9 @@
       }
     },
     "node_modules/react-native-device-info": {
-      "version": "14.0.2",
-      "resolved": "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-14.0.2.tgz",
-      "integrity": "sha512-W1oqu4dC4uLKT/Z4uimRP6birJprWjhMP/AwV9hxGSZ5K3wJ/yb34aQ22sd6HmegQHfT2PmkFs3mj+4uXLE1YQ==",
+      "version": "14.0.4",
+      "resolved": "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-14.0.4.tgz",
+      "integrity": "sha512-NX0wMAknSDBeFnEnSFQ8kkAcQrFHrG4Cl0mVjoD+0++iaKrOupiGpBXqs8xR0SeJyPC5zpdPl4h/SaBGly6UxA==",
       "peerDependencies": {
         "react-native": "*"
       }
