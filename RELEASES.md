@@ -1,5 +1,13 @@
 # Releases
 
+## 4.3.5 (Feb 4th, 2025)
+
+### Changelog
+
+- #68 Update to ApplicationInsights 3.4.5
+- #63 Add AI version update script to assist with automated integration testing
+- #66 Update rush version
+
 ## 4.3.4 (Oct 31st, 2024)
 
 ### Changelog
