@@ -1,5 +1,12 @@
 # Releases
 
+## 4.3.6 (March 6th, 2025)
+
+### Changelog
+
+- #70 [pre-release] update application insights to 3.3.6 
+
+
 ## 4.3.5 (Feb 4th, 2025)
 
 ### Changelog
