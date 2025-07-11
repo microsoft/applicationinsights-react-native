@@ -11,6 +11,10 @@
         "./manual": {
             "types": "./types/manualIndex.d.ts",
             "import": "./dist-esm/manualIndex.js"
+        },
+        "./dist-esm/manualIndex": {
+            "types": "./types/manualIndex.d.ts",
+            "import": "./dist-esm/manualIndex.js"
         }
     },
     "types": "types/index.d.ts",
