@@ -7,14 +7,15 @@
     "moduleResolution": "Node",
     "target": "es5",
     "alwaysStrict": true,
+    "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "noEmitHelpers": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "declarationDir": "types",
+    "declarationDir": "applicationinsights-react-native/types",
     "outDir": "dist-esm",
-    "rootDir": "src"
+    "rootDir": "applicationinsights-react-native/src"
   },
   "include": [
     "./src/**/*.ts"
