@@ -6,15 +6,18 @@
     "exports": {
         ".": {
             "types": "./types/index.d.ts",
-            "import": "./dist-esm/index.js"
+            "import": "./dist-esm/index.js",
+            "require": "./dist/applicationinsights-react-native.js"
         },
         "./manual": {
             "types": "./types/manualIndex.d.ts",
-            "import": "./dist-esm/manualIndex.js"
+            "import": "./dist-esm/manualIndex.js",
+            "require": "./dist/applicationinsights-react-native.js"
         },
         "./dist-esm/manualIndex": {
             "types": "./types/manualIndex.d.ts",
-            "import": "./dist-esm/manualIndex.js"
+            "import": "./dist-esm/manualIndex.js",
+            "require": "./dist/applicationinsights-react-native.js"
         }
     },
     "types": "types/index.d.ts",
