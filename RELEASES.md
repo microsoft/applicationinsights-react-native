@@ -1,5 +1,14 @@
 # Releases
 
+## 4.3.7 (July 24th, 2025)
+
+### Changelog
+
+- #79 Update AppInsights Core to 3.3.9
+- #74 Update Components to address governance issues
+- #77 Remove unused jquery-1.11.1.js from external test dependencies
+- #78 Add Require Path to package.json
+
 ## 4.3.6 (March 6th, 2025)
 
 ### Changelog
