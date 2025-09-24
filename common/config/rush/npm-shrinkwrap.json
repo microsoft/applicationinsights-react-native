@@ -24,6 +24,7 @@
         "@rush-temp/applicationinsights-js-release-tools": "file:./projects/applicationinsights-js-release-tools.tgz",
         "@rush-temp/applicationinsights-react-native": "file:./projects/applicationinsights-react-native.tgz",
         "@rush-temp/applicationinsights-rollup-plugin-uglify3-js": "file:./projects/applicationinsights-rollup-plugin-uglify3-js.tgz",
+        "@types/node": "24.0.14",
         "@types/qunit": "^2.5.3",
         "@types/sinon": "4.3.3",
         "@typescript-eslint/eslint-plugin": "^4.28.0",
@@ -2907,7 +2908,7 @@
     "node_modules/@rush-temp/applicationinsights-react-native": {
       "version": "0.0.0",
       "resolved": "file:projects/applicationinsights-react-native.tgz",
-      "integrity": "sha512-U4M02r0LzWmYuqu9pVWUnfyc6PLQJlSoTXVGjQ4kuL59lnRlbUqnau2NjRAAoxcR/2yfK/vq6FGDIpzdw/Pmgw==",
+      "integrity": "sha512-J/PB01gWmC4L8lpvFjfTTgDkk+mqkZOqlrwZRmQHHiOqgkBvhp2WMcyIGX/A14VwxisZilseFVFAXHVVyCqRgg==",
       "dependencies": {
         "@microsoft/api-extractor": "^7.18.1",
         "@microsoft/applicationinsights-common": "^3.3.10",
@@ -2921,6 +2922,7 @@
         "@rollup/plugin-commonjs": "^18.0.0",
         "@rollup/plugin-node-resolve": "^11.2.1",
         "@rollup/plugin-replace": "^2.3.3",
+        "@types/node": "24.0.14",
         "@typescript-eslint/eslint-plugin": "^4.28.0",
         "@typescript-eslint/parser": "^4.28.0",
         "eslint": "^7.29.0",
@@ -2948,13 +2950,14 @@
     "node_modules/@rush-temp/applicationinsights-rollup-plugin-uglify3-js": {
       "version": "0.0.0",
       "resolved": "file:projects/applicationinsights-rollup-plugin-uglify3-js.tgz",
-      "integrity": "sha512-HDr4d/lkJfbHQsUfUR+Hlu31vVSgVs9GrgziqhQeKhhdJ1t3OuIaENZCMu75U/KN/+f/Y464VLSiVxvu1OPEDw==",
+      "integrity": "sha512-0EiIHDpw5Y+2Le5sfKh/1Ug2n/dO9TePiUmf8ydWcXaPFKvtrWdOx44t/8BPbAcDIiIazL/YYdRXgPx+bnryGQ==",
       "dependencies": {
         "@nevware21/grunt-eslint-ts": "^0.2.2",
         "@nevware21/grunt-ts-plugin": "^0.4.3",
         "@rollup/plugin-commonjs": "^18.0.0",
         "@rollup/plugin-node-resolve": "^11.2.1",
         "@rollup/plugin-replace": "^2.3.3",
+        "@types/node": "24.0.14",
         "grunt": "^1.5.3",
         "grunt-cli": "^1.4.3",
         "rollup": "^2.77.2",
@@ -3139,11 +3142,11 @@
       "integrity": "sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ=="
     },
     "node_modules/@types/node": {
-      "version": "24.5.2",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.5.2.tgz",
-      "integrity": "sha512-FYxk1I7wPv3K2XBaoyH2cTnocQEu8AOZ60hPbsyukMPLv5/5qr7V1i8PLHdl6Zf87I+xZXFvPCXYjiTFq+YSDQ==",
+      "version": "24.0.14",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.0.14.tgz",
+      "integrity": "sha512-4zXMWD91vBLGRtHK3YbIoFMia+1nqEz72coM42C5ETjnNCa/heoj7NT1G67iAfOqMmcfhuCZ4uNpyz8EjlAejw==",
       "dependencies": {
-        "undici-types": "~7.12.0"
+        "undici-types": "~7.8.0"
       }
     },
     "node_modules/@types/qunit": {
@@ -11528,9 +11531,9 @@
       "integrity": "sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA=="
     },
     "node_modules/undici-types": {
-      "version": "7.12.0",
-      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.12.0.tgz",
-      "integrity": "sha512-goOacqME2GYyOZZfb5Lgtu+1IDmAlAEu5xnD3+xTzS10hT0vzpf0SPjkXwAw9Jm+4n/mQGDP3LO8CPbYROeBfQ=="
+      "version": "7.8.0",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.8.0.tgz",
+      "integrity": "sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw=="
     },
     "node_modules/unicode-canonical-property-names-ecmascript": {
       "version": "2.0.1",

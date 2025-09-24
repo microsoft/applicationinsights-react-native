@@ -67,7 +67,8 @@
         "puppeteer": "24.8.2",
         "typedoc": "^0.22.8",
         "typescript": "^4.3.4",
-        "whatwg-fetch": "^3.0.0"
+        "whatwg-fetch": "^3.0.0",
+        "@types/node": "24.0.14"
     },
     "dependencies": {
         "@microsoft/applicationinsights-common": "^3.3.10",
