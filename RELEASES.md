@@ -1,5 +1,11 @@
 # Releases
 
+## 4.3.8 (Sept 24th, 2025)
+
+### Changelog
+
+- #81 Update AppInsights Core to 3.3.10
+
 ## 4.3.7 (July 24th, 2025)
 
 ### Changelog
