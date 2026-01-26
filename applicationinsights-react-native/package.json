@@ -86,6 +86,10 @@
         "@microsoft/dynamicproto-js": "^2.0.3",
         "@nevware21/ts-utils": ">= 0.11.3 < 2.x"
     },
+    "overrides": {
+        "form-data": "^2.5.4",
+        "tar": "^7.5.3"
+    },
     "peerDependencies": {
         "tslib": "*",
         "react-native": "*",
