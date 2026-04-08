@@ -3,12 +3,10 @@
 
 import dynamicProto from "@microsoft/dynamicproto-js";
 import {
-    AnalyticsPluginIdentifier, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
-} from "@microsoft/applicationinsights-common";
-import {
     BaseTelemetryPlugin, IAppInsightsCore, IConfigDefaults, IPlugin, IProcessTelemetryContext, IProcessTelemetryUnloadContext, ITelemetryItem,
     ITelemetryPlugin, ITelemetryUnloadState, _eInternalMessageId, _throwInternal, _warnToConsole, arrForEach, dumpObj, eLoggingSeverity,
-    getExceptionName, onConfigChange
+    getExceptionName, onConfigChange,
+    AnalyticsPluginIdentifier, IAppInsights, IDevice, IExceptionTelemetry, eSeverityLevel
 } from "@microsoft/applicationinsights-core-js";
 import { getGlobal, strShimUndefined } from "@microsoft/applicationinsights-shims";
 import { INativeDevice, IReactNativePluginConfig } from "./Interfaces";

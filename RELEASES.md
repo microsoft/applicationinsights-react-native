@@ -1,5 +1,44 @@
 # Releases
 
+## 4.4.0 (April 8th, 2026)
+
+### Potential Breaking Changes (from @microsoft/applicationinsights-web v3.4.1)
+
+This release bumps the Application Insights dependency from ^3.3.10 to ^3.4.1. The 3.4.x release of Application Insights includes significant changes that may affect your application. Please review the following before upgrading.
+
+This version is NOT supported on any earlier versions of Application Insights.
+
+#### Package Deprecation
+
+The following packages have been merged into `@microsoft/applicationinsights-core-js` and are now deprecated. They continue to be published as backward-compatible shims (re-exporting from Core) so existing code will not break, but you should migrate to importing from `@microsoft/applicationinsights-core-js` directly:
+
+- **`@microsoft/applicationinsights-common`** — All exports have been merged into `@microsoft/applicationinsights-core-js`. The package is now a compatibility shim. See the [Migration Guide](https://github.com/microsoft/ApplicationInsights-JS/blob/main/docs/upgrade/MergeCommonToCore.md) for details. This package will be removed in a future major release (4.0.0).
+- **`@microsoft/1ds-core-js`** — All exports have been merged into `@microsoft/applicationinsights-core-js`. See the [1DS Core Migration Guide](https://github.com/microsoft/ApplicationInsights-JS/blob/main/shared/1ds-core-js/README.md) for migration steps. This package will be removed in a future major release (4.0.0).
+
+#### Interface Changes
+
+- The `IDistributedTraceContext` interface has been significantly expanded to include W3C trace state management capabilities, which may affect custom telemetry processors that interact with distributed tracing context.
+- The `TelemetryTrace` class has been removed. The `telemetryTrace` property is now an adapter to the existing `core.getTraceCtx()` value and is marked as deprecated.
+- The internal `ajaxRecord` class has been removed from `@microsoft/applicationinsights-dependencies-js` and replaced with the `IAjaxRecordData` interface.
+- The `flush` method parameter was renamed from `async` to `isAsync` in the `IChannelControls` interface.
+
+#### Significant New Features in Application Insights 3.4.1
+
+- W3C Trace State support with new distributed tracing modes (`AI_AND_W3C_TRACE`, `W3C_TRACE`)
+- OpenTelemetry integration preparation with foundational interfaces
+- Enhanced cookie management with in-memory caching when cookies are disabled
+
+For full details see the [Application Insights JS 3.4.1 release notes](https://github.com/microsoft/ApplicationInsights-JS/blob/main/RELEASES.md#341-april-7th-2026).
+
+### Changelog
+
+- Update to Application Insights ^3.4.1
+- Migrate imports from `@microsoft/applicationinsights-common` to `@microsoft/applicationinsights-core-js`
+- Remove `@microsoft/applicationinsights-common` as a direct dependency
+- Update dependency overrides to address known security vulnerabilities (tar, serialize-javascript, basic-ftp)
+
+**Application Insights Full Changelog**: https://github.com/microsoft/ApplicationInsights-JS/compare/3.3.11...3.4.1
+
 ## 4.3.8 (Sept 24th, 2025)
 
 ### Changelog
