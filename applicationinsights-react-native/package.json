@@ -1,6 +1,6 @@
 {
     "name": "@microsoft/applicationinsights-react-native",
-    "version": "4.3.8",
+    "version": "4.4.0",
     "description": "Microsoft Application Insights React Native Plugin",
     "main": "dist-esm/index.js",
     "exports": {
@@ -80,15 +80,16 @@
         "@types/node": "24.0.14"
     },
     "dependencies": {
-        "@microsoft/applicationinsights-common": "^3.3.10",
-        "@microsoft/applicationinsights-core-js": "^3.3.10",
+        "@microsoft/applicationinsights-core-js": "^3.4.1",
         "@microsoft/applicationinsights-shims": "^3.0.1",
         "@microsoft/dynamicproto-js": "^2.0.3",
         "@nevware21/ts-utils": ">= 0.11.3 < 2.x"
     },
     "overrides": {
-        "form-data": "^2.5.4",
-        "tar": "^7.5.3"
+        "basic-ftp": ">=5.2.0",
+        "form-data": "^2.5.5",
+        "tar": "^7.5.13",
+        "minimatch": "^3.1.4"
     },
     "peerDependencies": {
         "tslib": "*",
