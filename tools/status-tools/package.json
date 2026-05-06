@@ -7,7 +7,7 @@
     "sideEffects": false,
     "scripts": {
         "clean": "git clean -xdf",
-        "update": "rush update",
+        "update": "npm install",
         "build": "",
         "rebuild": "",
         "test": "",

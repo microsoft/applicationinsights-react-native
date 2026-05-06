@@ -11,9 +11,9 @@ This script is designed as a helper for setting and updating the version number 
 When run, it will
 - Set the specified version in the version.json (which is used as the default when not specified on the command line)
 - Updates the "version" within EVERY package.json for all channels/extensions/shared/skus/snippets/examples
-- Updates ALL of the referenced versions for the "@microsoft/1ds-xxx" dependencies/peerDependencies/devDependencies, so that when rush creates references they all reference the local build.
+- Updates ALL of the referenced versions for the "@microsoft/1ds-xxx" dependencies/peerDependencies/devDependencies, so that they all reference the local build.
 
-After running this script and the version number has changed you WILL need to also run the "rush update" ```npm run update``` to ensure that the dependencies and hashes identified in the npm-shrinkwrap.json are updated correctly.
+After running this script and the version number has changed you WILL need to also run `npm install` to ensure that the dependencies are updated correctly.
 
 ### When to use
 

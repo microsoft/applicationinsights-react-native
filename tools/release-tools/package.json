@@ -6,7 +6,7 @@
     "homepage": "https://github.com/microsoft/applicationinsights-react-native#readme",
     "sideEffects": false,
     "scripts": {
-        "update": "rush update",
+        "update": "npm install",
         "build": "",
         "rebuild": "",
         "test": "",
