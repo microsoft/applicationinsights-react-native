@@ -106,7 +106,8 @@ module.exports = function (grunt) {
         var buildCmds = {
             ts: {
                 options: {
-                    comments: true
+                    comments: true,
+                    failOnTypeErrors: false
                 }            
             },
             "eslint-ts": {

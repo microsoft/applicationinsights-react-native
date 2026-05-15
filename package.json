@@ -23,28 +23,26 @@
         "react native"
     ],
     "scripts": {
-        "postinstall": "node common/scripts/install-run-rush-silent.js update",
-        "build": "node common/scripts/install-run-rush.js rebuild --verbose",
+        "build": "npm run build:deps && npm run build:esm && npm run build:package && npm run dtsgen",
+        "build:deps": "grunt tst-framework && grunt rollupuglify && cd tools/rollup-plugin-uglify3-js && npx rollup -c && cd ../.. && cd common/Tests/Framework && npx rollup -c rollup.config.js && cd ../../..",
+        "build:esm": "grunt reactnative",
+        "build:package": "cd applicationinsights-react-native && npx rollup -c",
         "rebuild": "npm run build",
-        "testx": "rush test --verbose",
-        "test": "node common/scripts/install-run-rush.js test --verbose",
-        "mintest": "node common/scripts/install-run-rush.js mintest --verbose",
-        "lint": "node common/scripts/install-run-rush.js lint --verbose",
-        "perftest": "node common/scripts/install-run-rush.js perftest --verbose",
-        "rupdate": "node common/scripts/install-run-rush.js update --recheck --purge --full",
+        "test": "grunt reactnativetests",
+        "mintest": "grunt reactnative-mintests",
+        "lint": "cd applicationinsights-react-native && npm run lint",
+        "dtsgen": "cd applicationinsights-react-native && npm run dtsgen",
         "serve": "grunt serve",
         "setVersion": "node ./tools/release-tools/setVersion.js",
         "setAiVersion": "node ./tools/release-tools/setAiVersion.js",
-        "purge": "node common/scripts/install-run-rush.js purge",
-        "fullClean": "git clean -xdf && npm install && rush update --recheck --full",
+        "fullClean": "git clean -xdf && npm install",
         "fullCleanBuild": "npm run fullClean && npm run rebuild",
-        "ai-min": "node common/scripts/install-run-rush.js ai-min",
-        "ai-restore": "node common/scripts/install-run-rush.js ai-restore",
+        "ai-min": "grunt reactnative-min",
+        "ai-restore": "grunt reactnative-restore",
         "gh-status": "node ./tools/status-tools/github-status.js",
         "npm-package": "node ./tools/release-tools/npm-package.js"
     },
     "devDependencies": {
-        "@microsoft/rush": "5.153.1",
         "@nevware21/grunt-eslint-ts": "^0.5.2",
         "@nevware21/grunt-ts-plugin": "^0.5.2",
         "@typescript-eslint/eslint-plugin": "^7.14.1",
@@ -53,17 +51,18 @@
         "connect": "^3.7.0",
         "eslint": "^8.56.0",
         "eslint-plugin-security": "^1.5.0",
-        "grunt": "^1.6.1",
+        "grunt": "^1.6.2",
         "grunt-cli": "^1.5.0",
         "grunt-contrib-connect": "^3.0.0",
         "grunt-contrib-uglify": "^5.0.1",
         "grunt-string-replace": "^1.3.1",
         "eventemitter2": "6.4.9",
         "puppeteer": "^24.40.0",
+        "react-native-device-info": ">=5.2.1",
         "typedoc": "^0.22.8",
         "typescript": "^4.3.4",
         "whatwg-fetch": "^3.0.0",
-        "@types/node": "24.0.14"
+        "@types/node": "^18.0.0"
     },
     "dependencies": {
         "@microsoft/applicationinsights-core-js": "^3.4.1",
@@ -87,5 +86,11 @@
         "react-native-device-info": {
             "optional": true
         }
-    }
+    },
+    "workspaces": [
+        "common/Tests/Framework",
+        "tools/rollup-plugin-uglify3-js",
+        "tools/release-tools",
+        "applicationinsights-react-native"
+    ]
 }
