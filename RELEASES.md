@@ -1,5 +1,12 @@
 # Releases
 
+## 4.4.1 (June 22nd, 2026)
+
+### Changelog
+
+- Updated `@microsoft/applicationinsights-core-js` dependency from `^3.4.1` to `^3.4.2`.
+- Addressed reported npm audit vulnerabilities by applying available non-breaking fixes and adding `overrides` for `braces` (`^3.0.3`), `micromatch` (`^4.0.8`), and `ws` (`^8.18.3`).
+
 ## 4.4.0 (April 8th, 2026)
 
 ### Potential Breaking Changes (from @microsoft/applicationinsights-web v3.4.1)
