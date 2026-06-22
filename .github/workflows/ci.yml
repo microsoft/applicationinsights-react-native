@@ -14,6 +14,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # The puppeteer browser download into the shared ~/.cache/puppeteer can race
+    # across the npm install steps and intermittently fail extraction
+    # ("browser folder exists but the executable is missing"). Skip the puppeteer
+    # browser download entirely and run the QUnit tests against the runner's
+    # pre-installed Chrome (see the "pre-installed Chrome" step below).
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +34,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
+    - name: Use the runner's pre-installed Chrome for Puppeteer
+      run: |
+        CHROME_BIN="${CHROME_BIN:-$(command -v google-chrome || command -v google-chrome-stable || command -v chromium-browser || command -v chromium)}"
+        if [ -z "$CHROME_BIN" ]; then
+          echo "No system Chrome/Chromium found on the runner" >&2
+          exit 1
+        fi
+        echo "Using Chrome at: $CHROME_BIN"
+        "$CHROME_BIN" --version || true
+        echo "PUPPETEER_EXECUTABLE_PATH=$CHROME_BIN" >> "$GITHUB_ENV"
     - run: npm run build --verbose
       timeout-minutes: 10
     - run: npm run test --verbose
