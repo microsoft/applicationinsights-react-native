@@ -2,6 +2,30 @@ module.exports = function (grunt) {
 
    const versionPlaceholder = '"#version#"';
 
+    // Resolve a Puppeteer executable for local dev where managed-device Defender/WDAC
+    // blocks Puppeteer's unsigned bundled Chromium (Windows "blocked by IT admin" popups).
+    // Falls back to installed Edge locally. On CI/official builds it returns undefined so
+    // the bundled Chromium is used unchanged.
+    function _getBrowserExecutablePath() {
+        if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+            return process.env.PUPPETEER_EXECUTABLE_PATH;
+        }
+        if (process.env.TF_BUILD || process.env.CI || process.env.BUILD_BUILDID) {
+            return undefined; // CI / official build => use bundled Chromium
+        }
+        var candidates = [
+            process.env["ProgramFiles(x86)"] + "\\Microsoft\\Edge\\Application\\msedge.exe",
+            process.env["ProgramFiles"] + "\\Microsoft\\Edge\\Application\\msedge.exe"
+        ];
+        for (var i = 0; i < candidates.length; i++) {
+            if (candidates[i] && grunt.file.exists(candidates[i])) {
+                return candidates[i];
+            }
+        }
+        return undefined;
+    }
+    var browserExecutablePath = _getBrowserExecutablePath();
+
    const aiCoreDefaultNameReplacements = [
    ];
 
@@ -256,6 +280,7 @@ module.exports = function (grunt) {
                                 headless: true, 
                                 timeout: 30000,
                                 ignoreHTTPErrors: true,
+                                executablePath: browserExecutablePath,
                                 args:[
                                     "--enable-precise-memory-info",
                                     "--expose-internals-for-testing",
@@ -304,6 +329,7 @@ module.exports = function (grunt) {
                                 headless: true, 
                                 timeout: 30000,
                                 ignoreHTTPErrors: true,
+                                executablePath: browserExecutablePath,
                                 args:[
                                     "--enable-precise-memory-info",
                                     "--expose-internals-for-testing",
