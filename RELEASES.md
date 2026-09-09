@@ -1,5 +1,16 @@
 # Releases
 
+## 4.4.2 (September 9th, 2026)
+
+### Changelog
+
+- Updated `@microsoft/applicationinsights-core-js` dependency from `^3.4.2` to `^3.4.4`.
+- Updated `@microsoft/dynamicproto-js` from `^2.0.3` to `^2.0.5`.
+- Raised the minimum `@nevware21/ts-utils` version to 0.14.0.
+- Updated Puppeteer and transitive 3P dependencies to address known security vulnerabilities.
+
+**Application Insights Full Changelog**: https://github.com/microsoft/ApplicationInsights-JS/compare/3.4.2...3.4.4
+
 ## 4.4.1 (June 22nd, 2026)
 
 ### Changelog
