@@ -27,11 +27,21 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 ## Clone and setup
 1. Clone the repository and create a new branch
-2. Install all dependencies
+2. Select the patched Node.js tooling runtime before installing dependencies.
+   The root `.nvmrc` pins Node.js 22.23.4. With `nvm`, run from the repository root:
+	```
+	nvm install
+	nvm use
+	node --version
+	```
+   If using another version manager, select 22.23.4 explicitly. An already installed
+   newer patched Node.js 22 release does not need to be downgraded. CI also covers
+   Node.js 24.22.1 or newer within the 24.x line.
+3. Install all dependencies
 	```
 	npm install
 	```
-3. Build and test
+4. Build and test
 	```
 	npm run build
 	npm run test
@@ -50,3 +60,14 @@ The root folder contains the main package and supporting tooling. When making ch
     This will run the tests.
 
 If you are changing package versions or adding/removing any package dependencies, run `npm install` before building.
+
+Use the same patched Node.js runtime for Grunt, Rollup, browser-test launchers,
+Metro/Expo, release scripts, archive creation, and compression/size tooling,
+including Brotli encoding-only jobs as a precaution. A `.nvmrc` file does not
+switch Node.js automatically in every shell or IDE; check `node --version` in
+the environment that launches the command.
+
+This is a build/development requirement, not a new Node.js requirement for the
+published React Native plugin. Hermes and JavaScriptCore are separate mobile
+engines. See [Security](./SECURITY.md#nodejs-tooling-security-baseline) for the
+release baseline and runtime deployment boundaries.
