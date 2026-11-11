@@ -1,5 +1,11 @@
 # Releases
 
+## 4.4.3 (November 5th, 2026)
+
+### Changelog
+
+- Updated Node.js tooling and CI to use the October 2026 security-patched Node.js runtime baseline.
+
 ## 4.4.2 (September 9th, 2026)
 
 ### Changelog
